@@ -1,6 +1,7 @@
-#version: '2'
-#services:
-#  pytalk:
-#     build: .
-#     volumes:
-#        - ./books:/jupyter
+version: '2'
+services:
+  pytalk:
+    build: .
+
+    volumes:
+      - ./books:/jupyter
