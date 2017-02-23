@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
 # unfortunately this doesn't really work on Windows as pwd is not available
-# try in Git Bash?
-docker run -d -p 2020:9999 -v $(pwd)/books:/jupyter tschm/ipy:v0.5
+docker run -it -v $(pwd)/books:/jupyter tschm/ipy:v0.5 /bin/bash
