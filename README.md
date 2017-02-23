@@ -25,15 +25,9 @@ They can clone it and fire off exactly the same environment I have been using.
 ```
 git clone https://github.com/tschm/babynames.git
 ```
-Build a fresh Docker container by simply running
+You can then run or inspect
 ```
-docker-compose build
-```
-This will create a Linux based container (all of this will also work on Windows 10 Pro) providing exactly the same Python enviroment I was using for my experiments. 
-
-You can then run
-```
-docker-compose run -d -p "2016:5000" babynames
+start.sh
 ```
 A Jupyter server will now run on your localhost at port 2016. 
 
