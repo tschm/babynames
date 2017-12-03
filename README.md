@@ -31,8 +31,3 @@ start.sh
 ```
 A Jupyter server will now run on your localhost at port 2016. 
 
-I use 
-
-https://github.com/kevana/ui-for-docker
-
-to monitor and to remove my containers.
