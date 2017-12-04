@@ -6,4 +6,3 @@ ADD ./data /home/jovyan/work/data
 USER root:100
 
 CMD start-notebook.sh
-### --NotebookApp.token=''
