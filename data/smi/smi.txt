@@ -1,0 +1,21 @@
+Ticker,Company
+CSGN.VX,Credit Suisse Group AG
+NESN.VX,Nestlé S.A.
+SGSN.VX,SGS SA
+UBSG.VX,UBS Group AG
+LONN.VX,Lonza Group Ltd
+ROG.VX,Roche Holding AG
+SIK.VX,Sika AG
+UHR.VX,The Swatch Group AG
+NOVN.VX,Novartis AG
+ABBN.VX,ABB Ltd
+GIVN.VX,Givaudan SA
+SLHN.VX,Swiss Life Holding AG
+BAER.VX,Julius Baer Group Ltd.
+GEBN.VX,Geberit AG
+ADEN.VX,Adecco Group AG
+ZURN.VX,Zurich Insurance Group AG
+SCMN.VX,Swisscom AG
+CFR.VX,Compagnie Financière Richemont SA
+LHN.VX,LafargeHolcim Ltd
+SREN.VX,Swiss Re Ltd
