@@ -1,6 +1,7 @@
 FROM jupyter/datascience-notebook:latest
 
-RUN conda install -y -c cvxgrp cvxpy
+RUN conda install numpy
+RUN conda install -y -c cvxgrp cvxpy libgcc
 RUN conda install -y -c conda-forge tensorflow
 
 ADD ./data /home/jovyan/work/data
