@@ -4,8 +4,8 @@ RUN conda install -y numpy
 RUN conda install -y -c cvxgrp cvxpy libgcc
 RUN conda install -y -c conda-forge tensorflow
 
-ADD ./data /home/jovyan/work/data
 ADD ./config.json /home/jovyan/.jupyter/jupyter_notebook_config.json
+ADD ./scripts /home/jovyan/work
 
 USER root
 
