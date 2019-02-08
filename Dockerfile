@@ -3,7 +3,7 @@ FROM beakerx/beakerx:latest
 
 USER root
 
-RUN conda install -c conda-forge cvxpy=1.0.14 matplotlib
+RUN conda install -n beakerx -c conda-forge cvxpy=1.0.14 matplotlib
 
 # the password is geneva18
 COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
