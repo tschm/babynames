@@ -1,5 +1,5 @@
 # Set the base image to beakerx
-FROM beakerx/beakerx:latest
+FROM beakerx/beakerx:1.3.0
 
 USER root
 
