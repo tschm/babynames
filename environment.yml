@@ -1,0 +1,16 @@
+name: beakerX
+channels:
+  - conda-forge
+dependencies:
+  - python=3.6
+  - numpy
+  - pandas
+  - cvxpy
+  - matplotlib
+  - ipywidgets
+  - beakerx
+  #-
+  #- nodejs=0.10.*
+  #- flask
+  #- pip:
+  #  - Flask-Testing
