@@ -1,7 +1,0 @@
-name: beakerX
-channels:
-  - conda-forge
-dependencies:
-  - pandas
-  - cvxpy
-  - matplotlib
