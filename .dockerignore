@@ -1,0 +1,8 @@
+.dockerignore
+.gitignore
+build.sh
+docker-compose.yml
+jupyter_notebook_config.py
+README.md
+start.sh
+binder
