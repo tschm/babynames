@@ -1,4 +1,3 @@
-
 # Set the base image to jupyter
 FROM jupyter/minimal-notebook:45b8529a6bfc
 
