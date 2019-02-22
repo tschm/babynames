@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker-compose build --no-cache jupyter
+docker-compose build jupyter
