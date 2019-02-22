@@ -1,11 +1,11 @@
 version: '3.5'
 services:
-  web:
+  jupyter:
      build:
        context: ""
        dockerfile: ./binder/Dockerfile
      volumes:
-       - ./books:/home/jovyan/work
+       - ./work:/home/jovyan/work
        - ./jupyter_notebook_config.py:/etc/jupyter/jupyter_notebook_config.py:ro
      ports:
         - "8884:8888"
