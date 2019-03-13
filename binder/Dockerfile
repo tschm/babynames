@@ -1,4 +1,8 @@
 # Set the base image to jupyter
-FROM jupyter/minimal-notebook:45b8529a6bfc
-RUN conda install -y -c conda-forge pandas=0.24.1 matplotlib scipy=1.2.1 && conda clean -y --all
-COPY ./work ${HOME}/work
+FROM lobnek/jupyter:v2.3
+
+USER root
+RUN conda install -y -c conda-forge matplotlib scipy=1.2.1 && conda clean -y --all
+USER ${NB_USER}
+
+COPY ./work /home/${NB_USER}/work
