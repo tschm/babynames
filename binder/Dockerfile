@@ -1,10 +1,11 @@
 # Set the base image to jupyter
-FROM lobnek/jupyter:v2.6
+FROM lobnek/jupyter:v2.8
 
 # File Author / Maintainer
 MAINTAINER Thomas Schmelzer "thomas.schmelzer@lobnek.com"
 
-# we need this for the entropy function
-RUN pip install --no-cache-dir scipy
+# scipy is already in the image but nevertheless, let's install it
+# we need this for the entropy function, do not install with conda...
+# RUN pip install --no-cache-dir scipy
 
-COPY ./work /home/${NB_USER}/work
+COPY --chown=beakerx:beakerx ./work /home/${NB_USER}/work
