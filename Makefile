@@ -8,7 +8,7 @@ IMAGE := tschm/babynames
 include .env
 export
 
-.PHONY: help build test teamcity jupyter tag hub
+.PHONY: help build jupyter tag hub slides
 
 
 .DEFAULT: help
@@ -40,3 +40,7 @@ hub: tag
 	docker tag ${IMAGE}:latest ${IMAGE}:${PROJECT_VERSION}
 	docker push ${IMAGE}:${PROJECT_VERSION}
 	docker rmi -f ${IMAGE}:${PROJECT_VERSION}
+
+slides:
+	mkdir -p artifacts
+	cp -r work/* artifacts
