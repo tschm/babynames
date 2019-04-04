@@ -5,7 +5,7 @@ services:
        context: ""
        dockerfile: ./binder/Dockerfile
      volumes:
-       - ./work:/home/${NB_USER}/work
+       - ./work:${WORK}
      ports:
         - ${PORT}:8888
 
