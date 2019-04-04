@@ -1,5 +1,5 @@
 #!make
-PROJECT_VERSION := 1.4
+PROJECT_VERSION := 1.5
 
 SHELL := /bin/bash
 IMAGE := tschm/babynames
