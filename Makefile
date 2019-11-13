@@ -1,5 +1,5 @@
 #!make
-PROJECT_VERSION := 1.7
+PROJECT_VERSION := 1.8
 
 SHELL := /bin/bash
 IMAGE := tschm/babynames
@@ -38,10 +38,10 @@ tag:
 	git tag -a ${PROJECT_VERSION} -m "new tag"
 	git push --tags
 
-hub: tag
-	docker build -f binder/Dockerfile --tag ${IMAGE}:latest --no-cache .
-	docker push ${IMAGE}:latest
-	docker tag ${IMAGE}:latest ${IMAGE}:${PROJECT_VERSION}
-	docker push ${IMAGE}:${PROJECT_VERSION}
-	docker rmi -f ${IMAGE}:${PROJECT_VERSION}
+#hub: tag
+#	docker build -f binder/Dockerfile --tag ${IMAGE}:latest --no-cache .
+#	docker push ${IMAGE}:latest
+#	docker tag ${IMAGE}:latest ${IMAGE}:${PROJECT_VERSION}
+#	docker push ${IMAGE}:${PROJECT_VERSION}
+#	docker rmi -f ${IMAGE}:${PROJECT_VERSION}
 
