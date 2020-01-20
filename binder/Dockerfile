@@ -1,4 +1,13 @@
 # Set the base image to jupyter
-FROM tschm/docker:release-0.6
+FROM jupyter/base-notebook:1386e2046833 as jupyter
 
-COPY --chown=jovyan:100 ./work ${WORK}
+# File Author / Maintainer
+MAINTAINER Thomas Schmelzer "thomas.schmelzer@gmail.com"
+
+# copy the config.ini file
+COPY /binder/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+
+RUN conda install -y -c conda-forge nomkl pandas cvxpy beakerx && \
+    conda clean -y --all
+
+COPY --chown=jovyan:100 ./work /home/jovyan/work

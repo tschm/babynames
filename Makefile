@@ -4,10 +4,6 @@ PROJECT_VERSION := 1.7
 SHELL := /bin/bash
 IMAGE := tschm/babynames
 
-# needed to get the ${PORT} environment variable
-include .env
-export
-
 .PHONY: help build jupyter tag hub
 
 
@@ -27,11 +23,11 @@ build:
 	docker-compose build jupyter
 
 jupyter: build
-	echo "http://localhost:${PORT}"
+	echo "http://localhost:8844"
 	docker-compose up jupyter
 
 jupyterlab: build
-	echo "http://localhost:${PORT}/lab"
+	echo "http://localhost:8844/lab"
 	docker-compose up jupyter
 
 tag:
