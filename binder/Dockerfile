@@ -1,13 +1,11 @@
 # Set the base image to jupyter
-FROM jupyter/base-notebook:1386e2046833 as jupyter
+FROM lobnek/jupyterx:5.0 as jupyter
 
-# File Author / Maintainer
-MAINTAINER Thomas Schmelzer "thomas.schmelzer@gmail.com"
-
-# copy the config.ini file
-COPY /binder/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
-
-RUN conda install -y -c conda-forge nomkl pandas cvxpy beakerx && \
+# copy the work folder into the image, hence the notebooks will be available with docker pull from dockerhub
+# need this also for binder...and for windows
+RUN conda install -y -c conda-forge nomkl=3.0 pandas=0.25.3 requests=2.22.0 cvxpy=1.0.25  scipy && \
     conda clean -y --all
 
 COPY --chown=jovyan:100 ./work /home/jovyan/work
+
+WORKDIR /home/jovyan/work

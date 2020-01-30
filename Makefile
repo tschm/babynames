@@ -4,7 +4,7 @@ PROJECT_VERSION := 1.8
 SHELL := /bin/bash
 IMAGE := tschm/babynames
 
-.PHONY: help build jupyter tag hub
+.PHONY: help build jupyter tag hub clean-notebooks
 
 
 .DEFAULT: help
@@ -40,4 +40,5 @@ tag:
 #	docker tag ${IMAGE}:latest ${IMAGE}:${PROJECT_VERSION}
 #	docker push ${IMAGE}:${PROJECT_VERSION}
 #	docker rmi -f ${IMAGE}:${PROJECT_VERSION}
-
+clean-notebooks:
+	docker-compose exec jupyter jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace /home/jovyan/work/**/*.ipynb
