@@ -8,4 +8,4 @@ RUN conda install -y -c conda-forge nomkl=3.0 pandas=0.25.3 requests=2.22.0 cvxp
 
 COPY --chown=jovyan:100 ./work /home/jovyan/work
 
-WORKDIR /home/jovyan/work
+WORKDIR /home/jovyan/workgit
