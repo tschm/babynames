@@ -1,5 +1,5 @@
 #!make
-PROJECT_VERSION := 1.8
+PROJECT_VERSION := 2.0.1
 
 SHELL := /bin/bash
 IMAGE := tschm/babynames
@@ -27,18 +27,12 @@ jupyter: build
 	docker-compose up jupyter
 
 jupyterlab: build
-	echo "http://localhost:8844/lab"
+	echo "http://localhost:8888/lab"
 	docker-compose up jupyter
 
 tag:
 	git tag -a ${PROJECT_VERSION} -m "new tag"
 	git push --tags
 
-#hub: tag
-#	docker build -f binder/Dockerfile --tag ${IMAGE}:latest --no-cache .
-#	docker push ${IMAGE}:latest
-#	docker tag ${IMAGE}:latest ${IMAGE}:${PROJECT_VERSION}
-#	docker push ${IMAGE}:${PROJECT_VERSION}
-#	docker rmi -f ${IMAGE}:${PROJECT_VERSION}
 clean-notebooks:
 	docker-compose exec jupyter jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace /home/jovyan/work/**/*.ipynb
