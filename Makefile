@@ -4,7 +4,7 @@ PROJECT_VERSION := 2.0.1
 SHELL := /bin/bash
 IMAGE := tschm/babynames
 
-.PHONY: help build jupyter tag hub clean-notebooks
+.PHONY: help build jupyter tag clean-notebooks
 
 
 .DEFAULT: help
@@ -16,8 +16,7 @@ help:
 	@echo "       Start the Jupyter server."
 	@echo "make tag"
 	@echo "       Make a tag on Github."
-	@echo "make hub"
-	@echo "       Push Docker Image to DockerHub."
+
 
 build:
 	docker-compose build jupyter
