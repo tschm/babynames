@@ -1,10 +1,10 @@
 #!make
-PROJECT_VERSION := 2.0.1
+PROJECT_VERSION := 2.0.2
 
 SHELL := /bin/bash
 IMAGE := tschm/babynames
 
-.PHONY: help build jupyter tag clean-notebooks
+.PHONY: help build jupyter tag #clean-notebooks
 
 
 .DEFAULT: help
@@ -33,5 +33,5 @@ tag:
 	git tag -a ${PROJECT_VERSION} -m "new tag"
 	git push --tags
 
-clean-notebooks:
-	docker-compose exec jupyter jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace /home/jovyan/work/**/*.ipynb
+#clean-notebooks:
+#	docker-compose exec jupyter jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace /home/jovyan/work/**/*.ipynb
