@@ -3,4 +3,5 @@
 *.bash_history
 .ipynb_checkpoints
 slides
+.venv
 

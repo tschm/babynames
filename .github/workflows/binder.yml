@@ -2,7 +2,7 @@ name: binder
 
 on: [push]
 
-# This job builds and caches the Docker container for Binder
+# This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
   Serve-binder-cache:
     runs-on: ubuntu-latest
