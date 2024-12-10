@@ -4,14 +4,14 @@ SHELL=/bin/bash
 
 .PHONY: install
 install:  ## Install a virtual environment
-	python -m venv .venv
-	.venv/bin/pip install -r requirements.txt
+	@python -m venv .venv
+	@.venv/bin/pip install -r requirements.txt
 
 .PHONY: fmt
 fmt:  install ## Run autoformatting and linting
-	.venv/bin/pip install pre-commit
-	.venv/bin/pre-commit install
-	.venv/bin/pre-commit run --all-files
+	@.venv/bin/pip install pre-commit
+	@.venv/bin/pre-commit install
+	@.venv/bin/pre-commit run --all-files
 
 .PHONY: clean
 clean:  ## Clean up caches and build artifacts
