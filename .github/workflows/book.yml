@@ -29,21 +29,21 @@ jobs:
 
       - name: Convert notebooks to HTML
         run: |
-          mkdir -p html
+          mkdir -p marimo
           for file in notebooks/*.py; do
             if [ -f "$file" ]; then
               filename=$(basename "$file" .py)
               echo "Converting $filename.py to HTML..."
               # Can't work as it relies on license files not part of this repo
-              uv run marimo export html "$file" -o "html/${filename}.html"
+              uv run marimo export html "$file" -o "marimo/${filename}.html"
             fi
           done
 
       - name: Upload HTML artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: html
-          path: html
+          name: marimo
+          path: marimo
           retention-days: 1
 
   deploy-book:
@@ -60,7 +60,7 @@ jobs:
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
-        path: html
+        path: marimo
 
     - name: "Build the book"
       run: |

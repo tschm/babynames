@@ -2,4 +2,4 @@
 
 ## Switzerland
 
-- [Boring Names](https://tschm.github.io/babynames/html/boring.html)
+- [Boring Names](https://tschm.github.io/babynames/marimo/boring.html)
