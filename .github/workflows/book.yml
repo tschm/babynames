@@ -5,13 +5,15 @@ on: [push]
 permissions:
   contents: read
 
-# This job installs dependencies, builds the book, and pushes it to `gh-pages`
+# These jobs installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
   book:
     runs-on: ubuntu-latest
     steps:
+        # check out the repo
         - uses: actions/checkout@v4
 
+        # Install uv
         - name: Install uv
           uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a
 
@@ -47,18 +49,21 @@ jobs:
   marimo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/core.yml
+        with:
+          python-version: 3.12
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a
+      #- name: Install uv
+      #  uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a
 
-      - name: Create virtual environment
-        run: |
-          uv venv
+      #- name: Create virtual environment
+      #  run: |
+      #    uv python install '3.12'
+      #    uv venv
 
-      - name: Install dependencies with uv
-        run: |
-          uv pip install --no-cache-dir  -r requirements.txt
+      #- name: Install dependencies with uv
+      #  run: |
+      #    uv pip install --no-cache-dir  -r requirements.txt
 
       - name: Install marimo
         run: |
