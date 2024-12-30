@@ -29,13 +29,13 @@ jobs:
 
       - name: Convert notebooks to HTML
         run: |
-          mkdir -p marimo
+          mkdir -p artifacts/marimo
           for file in notebooks/*.py; do
             if [ -f "$file" ]; then
               filename=$(basename "$file" .py)
               echo "Converting $filename.py to HTML..."
               # Can't work as it relies on license files not part of this repo
-              uv run marimo export html "$file" -o "marimo/${filename}.html"
+              uv run marimo export html "$file" -o "artifacts/marimo/${filename}.html"
             fi
           done
 
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: marimo
-          path: marimo
+          path: artifacts/marimo
           retention-days: 1
 
   deploy-book:
@@ -57,14 +57,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install uv
+      uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a
+
+    - name: Create virtual environment
+      run: |
+          uv venv
+
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
-        path: marimo
+        path: .book
 
     - name: "Build the book"
       run: |
-        make book
+          uv pip install --no-cache-dir  jupyterlab jupyter-book
+          uv run jupyter-book clean book
+          uv run jupyter-book build book
 
     - name: GitHub Pages action
       uses: JamesIves/github-pages-deploy-action@v4.7.2
