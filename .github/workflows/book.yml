@@ -75,6 +75,10 @@ jobs:
           uv run jupyter-book clean book
           uv run jupyter-book build book
 
+    - name: Create .nojekyll
+      shell: bash
+      run: touch .book/.nojekyll
+
     - name: GitHub Pages action
       uses: JamesIves/github-pages-deploy-action@v4.7.2
       with:
