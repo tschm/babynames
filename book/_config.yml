@@ -5,12 +5,6 @@ title: babynames
 author: Thomas Schmelzer
 only_build_toc_files: true
 
-parse:
-  myst_enable_extensions:
-    - substitution
-    - linkify
-    - dollarmath
-
 # Information about where the book exists on the web
 repository:
   url: https://github.com/tschm/babynames

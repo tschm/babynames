@@ -17,6 +17,7 @@ jobs:
           shell: bash
           run: |
               uv python install '3.12'
+              uv venv
 
         - name: Install jupyterbook
           shell: bash
