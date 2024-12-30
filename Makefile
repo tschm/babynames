@@ -40,4 +40,4 @@ marimo: install ## Install Marimo
 book: install ## Compile the book
 	@uv pip install jupyterlab jupyter-book
 	@uv run jupyter-book clean book
-	@uv run build book
+	@uv run jupyter-book build book
