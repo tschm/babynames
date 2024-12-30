@@ -15,7 +15,7 @@ jobs:
 
         - name: Create virtual environment
           run: |
-            - uv venv
+            uv venv
 
 
         - name: Install jupyterbook
