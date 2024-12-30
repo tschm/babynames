@@ -29,7 +29,7 @@ def _():
 
 @app.cell
 def _(path, pd):
-    prices = pd.read_csv(path / "prices.csv", index_col=0)
+    prices = pd.read_csv(path / "data" / "prices.csv", index_col=0)
 
     returns = prices.pct_change().fillna(0.0)
     returns
