@@ -1,8 +1,7 @@
 .idea
 *.~lock*
 *.bash_history
-.ipynb_checkpoints
 slides
 .venv
 book/_build
-
+__pycache__

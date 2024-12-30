@@ -3,3 +3,7 @@ pandas
 numpy
 cvxpy
 scipy
+
+# we also install them on the fly in the Makefile
+marimo==0.10.7
+pre-commit==4.0.1
