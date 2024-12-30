@@ -2,8 +2,5 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 format: jb-book
 root: docs/index
-#chapters:
-#    - file: docs/SMI/Fun
-#    - file: docs/US Names/Elvis
-
-    #- file: docs/notebooks/Rotation3d
+chapters:
+    - file: docs/marimo
