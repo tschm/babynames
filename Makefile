@@ -8,12 +8,12 @@ venv:
 .PHONY: install
 install: venv ## Install a virtual environment
 	@uv pip install --upgrade pip
-	@uv pip install -r requirements.txt
+	@uv pip install --no-cache-dir  -r requirements.txt
 
 
 .PHONY: fmt
 fmt: venv ## Run autoformatting and linting
-	@uv pip install pre-commit
+	@uv pip install --no-cache-dir  pre-commit
 	@uv run pre-commit install
 	@uv run pre-commit run --all-files
 
@@ -32,12 +32,12 @@ help:  ## Display this help screen
 
 .PHONY: marimo
 marimo: install ## Install Marimo
-	@uv pip install marimo
+	@uv pip install --no-cache-dir  marimo
 	@uv run marimo edit book/docs
 
 
 .PHONY: book
 book: install ## Compile the book
-	@uv pip install jupyterlab jupyter-book
+	@uv pip install --no-cache-dir  jupyterlab jupyter-book
 	@uv run jupyter-book clean book
 	@uv run jupyter-book build book

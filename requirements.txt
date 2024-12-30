@@ -1,8 +1,9 @@
 matplotlib
 pandas
 numpy
-cvxpy
+cvxpy-base
 scipy
+clarabel
 
 # we also install them on the fly in the Makefile
 marimo==0.10.7

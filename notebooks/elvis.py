@@ -28,7 +28,9 @@ def _():
 
 @app.cell
 def _(path, pd):
-    names = pd.read_csv(path / "us.csv", index_col=["year", "Name", "Gender"])["n"]
+    names = pd.read_csv(path / "data" / "us.csv", index_col=["year", "Name", "Gender"])[
+        "n"
+    ]
     names
     return (names,)
 
