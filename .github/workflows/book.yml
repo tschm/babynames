@@ -28,8 +28,8 @@ jobs:
         - name: Build the book
           shell: bash
           run: |
-            uv run jupyter-book clean book
-            uv run jupyter-book build book
+            uv run jupyter-book clean ./book
+            uv run jupyter-book build ./book
 
         # Upload the book
         - name: Archive book
