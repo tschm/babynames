@@ -28,6 +28,7 @@ jobs:
         - name: Build the book
           shell: bash
           run: |
+            ls -all
             uv run jupyter-book clean ./book
             uv run jupyter-book build ./book
 
