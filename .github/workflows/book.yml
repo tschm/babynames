@@ -21,7 +21,7 @@ jobs:
         - name: Install jupyterbook
           shell: bash
           run: |
-            uv pip install --no-cache-dir jupyter-book sphinx-math-dollar
+            uv pip install --no-cache-dir jupyter-book
 
 
         # Build the book
