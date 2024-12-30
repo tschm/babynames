@@ -1,9 +1,6 @@
 name: Pre-commit Checks
 
-on:
-  pull_request:
-  push:
-    branches: [main, master]
+on: [push]
 
 permissions:
   contents: read
