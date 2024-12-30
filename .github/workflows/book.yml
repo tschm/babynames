@@ -11,12 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         # check out the repo
-        - uses: actions/checkout@v4
+        #- uses: actions/checkout@v4
 
         # install uv, python and all requirements
-        - uses: ./.github/actions/core
+        - uses: cvxgrp/.github/actions/uv/core
           with:
             python-version: 3.12
+
+        #- uses: ./.github/actions/core
+        #  with:
+        #    python-version: 3.12
 
         - name: Install jupyterbook
           shell: bash
