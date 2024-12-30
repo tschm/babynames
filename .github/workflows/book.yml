@@ -13,16 +13,15 @@ jobs:
         - name: Install uv
           uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a
 
-        - name: Create virtual environment
+        - name: Set up Python and install dependencies
+          shell: bash
           run: |
-            uv venv
-
+              uv python install '3.12'
 
         - name: Install jupyterbook
           shell: bash
           run: |
             uv pip install --no-cache-dir jupyter-book
-
 
         # Build the book
         - name: Build the book
