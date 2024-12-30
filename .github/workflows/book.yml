@@ -60,7 +60,7 @@ jobs:
       # check out the repo
       - uses: actions/checkout@v4
 
-      - uses: ./.github/workflows/core.yml
+      - uses: ./.github/actions/core
         with:
           python-version: 3.12
 
