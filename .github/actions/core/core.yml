@@ -1,22 +1,13 @@
-name: Core Workflow
-on:
-  workflow_call:
-    inputs:
-      python-version:
-        required: true
-        type: string
+name: 'Core Setup'
+description: 'Sets up Python and uv with dependencies'
 
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
-  checks: write
+inputs:
+  python-version:
+    description: 'Python version to use'
+    required: true
 
-jobs:
-  setup:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
+runs:
+    using: "composite"
     steps:
       - uses: actions/checkout@v4
 
