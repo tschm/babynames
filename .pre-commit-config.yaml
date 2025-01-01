@@ -45,4 +45,3 @@ repos:
     hooks:
       - id: actionlint
         args: [-ignore, SC]
-
