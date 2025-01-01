@@ -83,7 +83,6 @@ def _(cvx, pd, returns):
 @app.cell
 def _(cvx, pd, returns):
     def ElasticNet(matrix, w0, lamb_balance=0, lamb_trades=0):
-
         def __objective():
             return cvx.Minimize(
                 cvx.norm(matrix.values @ w, 2)
@@ -104,7 +103,6 @@ def _(cvx, pd, returns):
 @app.cell
 def _(cvx, pd):
     def ElasticNet_1(matrix, w0, lamb_balance=0, lamb_trades=0):
-
         def __objective():
             return cvx.Minimize(
                 cvx.norm(matrix.values @ w, 2)

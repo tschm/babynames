@@ -4,12 +4,15 @@ repos:
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
+      - id: check-yaml
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: 'v0.8.4'
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
+      # Run the formatter
+      - id: ruff-format
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.43.0
@@ -30,3 +33,9 @@ repos:
 
       - id: check-github-workflows
         args: ["--verbose"]
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.29.0
+    hooks:
+      - id: typos
+        exclude: '\.csv$'
