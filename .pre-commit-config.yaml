@@ -39,3 +39,9 @@ repos:
     hooks:
       - id: typos
         exclude: '\.csv$'
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.5
+    hooks:
+      - id: actionlint
+        args: [-ignore, SC]
