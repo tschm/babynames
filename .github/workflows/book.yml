@@ -12,7 +12,7 @@ jobs:
     steps:
         - name: Checkout [${{ github.repository }}]
           uses: actions/checkout@v4
-    
+
         # install uv, python and all requirements
         - uses: cvxgrp/.github/actions/uv/core@main
           with:
@@ -46,7 +46,7 @@ jobs:
     steps:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
-        
+
       # install uv, python and all requirements
       - uses: cvxgrp/.github/actions/uv/core@main
         with:
