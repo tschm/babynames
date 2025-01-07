@@ -25,7 +25,7 @@ jobs:
           run: |
             uv venv
             uv pip install --no-cache-dir  -r requirements.txt
-        
+
         - name: Install jupyterbook
           shell: bash
           run: |
@@ -67,7 +67,7 @@ jobs:
         run: |
           uv venv
           uv pip install --no-cache-dir  -r requirements.txt
-        
+
 
       # Convert all notebooks
       - name: Convert notebooks to HTML
