@@ -13,11 +13,19 @@ jobs:
         - name: Checkout [${{ github.repository }}]
           uses: actions/checkout@v4
 
-        # install uv, python and all requirements
-        - uses: cvxgrp/.github/actions/uv/core@v2.0.0
+        # Install uv
+        - name: Install uv
+          uses: astral-sh/setup-uv@4
           with:
-            python-version: 3.12
+            python-version: '3.12'
 
+
+        - name: Set up Python and install dependencies
+          shell: bash
+          run: |
+            uv venv
+            uv pip install --no-cache-dir  -r requirements.txt
+        
         - name: Install jupyterbook
           shell: bash
           run: |
@@ -47,11 +55,19 @@ jobs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
-      # install uv, python and all requirements
-      - uses: cvxgrp/.github/actions/uv/core@v2.0.0
+      # Install uv
+      - name: Install uv
+        uses: astral-sh/setup-uv@4
         with:
-          python-version: 3.12
+          python-version: '3.12'
 
+
+      - name: Set up Python and install dependencies
+        shell: bash
+        run: |
+          uv venv
+          uv pip install --no-cache-dir  -r requirements.txt
+        
 
       # Convert all notebooks
       - name: Convert notebooks to HTML
