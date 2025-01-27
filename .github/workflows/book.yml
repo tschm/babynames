@@ -1,6 +1,6 @@
 name: deploy-book
 
-on: 
+on:
   - workflow_dispatch
   - push
 
