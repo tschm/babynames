@@ -99,19 +99,4 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: .book
-
-    - name: Create .nojekyll
-      shell: bash
-      run: touch .book/.nojekyll
-
-    - name: GitHub Pages action
-      uses: JamesIves/github-pages-deploy-action@v4.7.2
-      with:
-          branch: gh-pages
-          folder: .book
+      - uses: cvxgrp/.github/actions/book@v2.0.17
