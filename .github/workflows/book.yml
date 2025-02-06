@@ -20,42 +20,10 @@ jobs:
   marimo:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout [${{ github.repository }}]
-        uses: actions/checkout@v4
+      - name: "Build the virtual environment for ${{ github.repository }}"
+        uses: cvxgrp/.github/actions/environment/pip@main
 
-      # Install uv
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: '3.12'
-
-
-      - name: Set up Python and install dependencies
-        shell: bash
-        run: |
-          uv venv
-          uv pip install --no-cache-dir  -r requirements.txt
-
-
-      # Convert all notebooks
-      - name: Convert notebooks to HTML
-        run: |
-          mkdir -p artifacts/marimo
-          for file in notebooks/*.py; do
-            if [ -f "$file" ]; then
-              filename=$(basename "$file" .py)
-              echo "Converting $filename.py to HTML..."
-              # Can't work as it relies on license files not part of this repo
-              uv run marimo export html "$file" -o "artifacts/marimo/${filename}.html"
-            fi
-          done
-
-      - name: Upload HTML artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: marimo
-          path: artifacts/marimo
-          retention-days: 1
+      - uses: cvxgrp/.github/actions/marimo@v2.1.1
 
   deploy-book:
     runs-on: ubuntu-latest
