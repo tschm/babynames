@@ -12,45 +12,11 @@ jobs:
   book:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout [${{ github.repository }}]
-          uses: actions/checkout@v4
-
-        # Install uv
-        - name: Install uv
-          uses: astral-sh/setup-uv@v5
-          with:
-            python-version: '3.12'
-
-
-        - name: Set up Python and install dependencies
-          shell: bash
-          run: |
-            uv venv
-            uv pip install --no-cache-dir  -r requirements.txt
-
-        - name: Install jupyterbook
-          shell: bash
-          run: |
-            uv pip install --no-cache-dir jupyter-book
-
-        # Build the book
-        - name: Build the book
-          shell: bash
-          run: |
-            ls -all
-            uv run jupyter-book clean book
-            uv run jupyter-book build book
-
-        # Upload the book
-        - name: Archive book
-          uses: actions/upload-artifact@v4
-          with:
-            name: book
-            path: book/_build/html/
-            retention-days: 1
-
-
-
+        - name: "Build the virtual environment for ${{ github.repository }}"
+          uses: cvxgrp/.github/actions/environment/pip@main
+        
+        - uses: cvxgrp/.github/actions/jupyter@v2.1.1
+        
   marimo:
     runs-on: ubuntu-latest
     steps:
