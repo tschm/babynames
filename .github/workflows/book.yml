@@ -1,7 +1,6 @@
 name: deploy-book
 
 on:
-  - workflow_dispatch
   - push
 
 permissions:
