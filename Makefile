@@ -33,7 +33,7 @@ help:  ## Display this help screen
 .PHONY: marimo
 marimo: install ## Install Marimo
 	@uv pip install --no-cache-dir  marimo
-	@uv run marimo edit book/docs
+	@uv run marimo edit notebooks
 
 
 .PHONY: book
