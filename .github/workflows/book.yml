@@ -24,6 +24,8 @@ jobs:
         uses: cvxgrp/.github/actions/environment/pip@main
 
       - uses: cvxgrp/.github/actions/marimo@v2.1.1
+        with:
+          source_folder: 'notebooks'
 
   deploy-book:
     runs-on: ubuntu-latest
