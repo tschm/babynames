@@ -16,7 +16,7 @@ jobs:
           uses: cvxgrp/.github/actions/environment/pip@main
 
         - uses: cvxgrp/.github/actions/jupyter@v2.1.1
-        
+
   marimo:
     runs-on: ubuntu-latest
     steps:
