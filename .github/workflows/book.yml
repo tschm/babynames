@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@main_2
+        uses: cvxgrp/.github/actions/environment@main
 
-      - uses: cvxgrp/.github/actions/marimo@main_2
+      - uses: cvxgrp/.github/actions/marimo@main
         with:
           source_folder: 'notebooks'
 
