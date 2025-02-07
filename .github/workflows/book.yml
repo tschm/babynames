@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: "Build the virtual environment for ${{ github.repository }}"
-          uses: cvxgrp/.github/actions/environment@v2.2.1
+          uses: cvxgrp/.github/actions/environment@v2.2.2
 
-        - uses: cvxgrp/.github/actions/jupyter@v2.2.1
+        - uses: cvxgrp/.github/actions/jupyter@v2.2.2
 
   marimo:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: cvxgrp/.github/actions/environment@v2.2.1
+        uses: cvxgrp/.github/actions/environment@v2.2.2
 
-      - uses: cvxgrp/.github/actions/marimo@v2.2.1
+      - uses: cvxgrp/.github/actions/marimo@v2.2.2
         with:
           source_folder: 'notebooks'
 
@@ -34,4 +34,4 @@ jobs:
       contents: write
 
     steps:
-      - uses: cvxgrp/.github/actions/book@v2.2.1
+      - uses: cvxgrp/.github/actions/book@v2.2.2
