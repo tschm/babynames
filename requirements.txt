@@ -1,6 +1,6 @@
 matplotlib==3.10.1
 pandas==2.2.3
-numpy==2.2.3
+numpy==2.2.4
 cvxpy-base==1.6.4
 scipy==1.15.2
 clarabel==0.10.0
