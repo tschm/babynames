@@ -6,5 +6,5 @@ scipy==1.15.3
 clarabel==0.10.0
 
 # we also install them on the fly in the Makefile
-marimo==0.13.8
+marimo==0.13.9
 pre-commit==4.2.0
