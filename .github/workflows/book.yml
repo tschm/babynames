@@ -34,4 +34,4 @@ jobs:
       contents: write
 
     steps:
-      - uses: cvxgrp/.github/actions/book@v2.2.8
+      - uses: tschm/cradle/actions/book@v0.1.64
