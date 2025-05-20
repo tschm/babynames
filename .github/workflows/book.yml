@@ -34,4 +34,8 @@ jobs:
       contents: write
 
     steps:
+      # Check out the repository code
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
       - uses: tschm/cradle/actions/book@v0.1.64
