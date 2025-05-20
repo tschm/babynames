@@ -13,4 +13,4 @@ jobs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
-      - uses: tschm/cradle/actions/pre-commit@v0.1.66
+      - uses: tschm/cradle/actions/pre-commit@v0.1.68

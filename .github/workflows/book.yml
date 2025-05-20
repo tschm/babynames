@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: "Build the virtual environment for ${{ github.repository }}"
-          uses: tschm/cradle/actions/environment@v0.1.66
+          uses: tschm/cradle/actions/environment@v0.1.68
 
-        - uses: tschm/cradle/actions/jupyter@v0.1.66
+        - uses: tschm/cradle/actions/jupyter@v0.1.68
 
   marimo:
     runs-on: ubuntu-latest
     steps:
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: tschm/cradle/actions/environment@v0.1.66
+        uses: tschm/cradle/actions/environment@v0.1.68
 
-      - uses: tschm/cradle/actions/marimo@v0.1.66
+      - uses: tschm/cradle/actions/marimo@v0.1.68
         with:
           source_folder: 'notebooks'
 
@@ -38,4 +38,4 @@ jobs:
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
 
-      - uses: tschm/cradle/actions/book@v0.1.66
+      - uses: tschm/cradle/actions/book@v0.1.68
