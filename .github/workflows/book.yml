@@ -14,7 +14,7 @@ jobs:
         - name: "Build the virtual environment for ${{ github.repository }}"
           uses: tschm/cradle/actions/environment@v0.1.63
 
-        - uses: cvxgrp/.github/actions/jupyter@v2.2.8
+        - uses: tschm/cradle/actions/jupyter@v0.1.64
 
   marimo:
     runs-on: ubuntu-latest
