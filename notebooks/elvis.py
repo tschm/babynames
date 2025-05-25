@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.10.7"
+__generated_with = "0.11.7"
 app = marimo.App()
 
 
@@ -39,7 +39,10 @@ def _(path, pd):
 def _(names):
     f = names.loc[:, "Elvis", "M"]
     f.plot()
+    print(f.sort_values(ascending=False).head(10))
+    f.plot(title="# Boys named Elvis")
     # f.sort_values()
+
     return (f,)
 
 
