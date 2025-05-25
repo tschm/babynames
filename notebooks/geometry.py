@@ -143,7 +143,7 @@ def _(boys: Any, girls: Any, match: Callable) -> None:
 
 
 @app.cell
-def _(boys, girls, match):
+def _(boys: Any, girls: Any, match: Callable) -> None:
     # which girl has the best matching with the boys, e.g. we match each girl against all boys and compute the mean
     # for each girl. A high number indicates that the girl would be very compatible
     match(boys, girls).reset_index().groupby(by="Name A")[0].mean().sort_values()
@@ -151,13 +151,13 @@ def _(boys, girls, match):
 
 
 @app.cell
-def _(boys, girls, match):
+def _(boys: Any, girls: Any, match: Callable) -> None:
     match(boys, girls).reset_index().groupby(by="Name A")[0].mean().sort_values()
     return
 
 
 @app.cell
-def _():
+def _() -> Tuple[Any]:
     import marimo as mo
 
     return (mo,)
