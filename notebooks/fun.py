@@ -1,17 +1,18 @@
 import marimo
+from typing import Tuple, Any, Callable
 
 __generated_with = "0.10.7"
 app = marimo.App()
 
 
 @app.cell
-def _(mo):
+def _(mo: Any) -> None:
     mo.md(r"""# Fun with the SMI""")
     return
 
 
 @app.cell
-def _(__file__):
+def _(__file__: str) -> Tuple[Any, Any]:
     from pathlib import Path
 
     path = Path(__file__).parent
@@ -19,7 +20,7 @@ def _(__file__):
 
 
 @app.cell
-def _():
+def _() -> Tuple[Any, Any]:
     import pandas as pd
     import cvxpy as cvx
 
@@ -28,7 +29,7 @@ def _():
 
 
 @app.cell
-def _(path, pd):
+def _(path: Any, pd: Any) -> Tuple[Any, Any]:
     prices = pd.read_csv(path / "data" / "prices.csv", index_col=0)
 
     returns = prices.pct_change().fillna(0.0)
@@ -37,21 +38,21 @@ def _(path, pd):
 
 
 @app.cell
-def _(returns):
+def _(returns: Any) -> None:
     print(100 * 16 * returns.std().sort_values())
     return
 
 
 @app.cell
-def _(prices):
+def _(prices: Any) -> None:
     # Severe problems with data quality here...
     prices["UBS Group AG"].plot()
     return
 
 
 @app.cell
-def _(cvx, pd, returns):
-    def min_var(matrix):
+def _(cvx: Any, pd: Any, returns: Any) -> Tuple[Callable]:
+    def min_var(matrix: Any) -> Any:
         w = cvx.Variable(matrix.shape[1])
 
         cvx.Problem(
@@ -65,9 +66,9 @@ def _(cvx, pd, returns):
 
 
 @app.cell
-def _(cvx, pd, returns):
-    def ridge(matrix, lamb_balance=0):
-        def __objective():
+def _(cvx: Any, pd: Any, returns: Any) -> Tuple[Callable]:
+    def ridge(matrix: Any, lamb_balance: float = 0) -> Any:
+        def __objective() -> Any:
             return cvx.Minimize(
                 cvx.norm(matrix.values @ w, 2) + lamb_balance * cvx.norm(w, 2)
             )
@@ -81,9 +82,11 @@ def _(cvx, pd, returns):
 
 
 @app.cell
-def _(cvx, pd, returns):
-    def ElasticNet(matrix, w0, lamb_balance=0, lamb_trades=0):
-        def __objective():
+def _(cvx: Any, pd: Any, returns: Any) -> Tuple[Callable]:
+    def ElasticNet(
+        matrix: Any, w0: float, lamb_balance: float = 0, lamb_trades: float = 0
+    ) -> Any:
+        def __objective() -> Any:
             return cvx.Minimize(
                 cvx.norm(matrix.values @ w, 2)
                 + lamb_balance * cvx.norm(w, 2)
@@ -101,9 +104,11 @@ def _(cvx, pd, returns):
 
 
 @app.cell
-def _(cvx, pd):
-    def ElasticNet_1(matrix, w0, lamb_balance=0, lamb_trades=0):
-        def __objective():
+def _(cvx: Any, pd: Any) -> Tuple[Callable]:
+    def ElasticNet_1(
+        matrix: Any, w0: float, lamb_balance: float = 0, lamb_trades: float = 0
+    ) -> Any:
+        def __objective() -> Any:
             return cvx.Minimize(
                 cvx.norm(matrix.values @ w, 2)
                 + lamb_balance * cvx.norm(w, 2)
@@ -118,7 +123,7 @@ def _(cvx, pd):
 
 
 @app.cell
-def _():
+def _() -> Tuple[Any]:
     import marimo as mo
 
     return (mo,)

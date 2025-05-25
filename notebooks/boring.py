@@ -1,11 +1,12 @@
 import marimo
+from typing import Tuple, Any, Callable, Optional
 
 __generated_with = "0.10.7"
 app = marimo.App()
 
 
 @app.cell
-def _():
+def _() -> Tuple[Any, Any]:
     import pandas as pd
     import numpy as np
 
@@ -13,7 +14,7 @@ def _():
 
 
 @app.cell
-def _(__file__):
+def _(__file__: str) -> Tuple[Any, Any]:
     from pathlib import Path
 
     path = Path(__file__).parent
@@ -21,14 +22,14 @@ def _(__file__):
 
 
 @app.cell
-def _(path, pd):
+def _(path: Any, pd: Any) -> Tuple[Any, Any]:
     boys = pd.read_csv(path / "data" / "boys.csv", index_col=0)
     girls = pd.read_csv(path / "data" / "girls.csv", index_col=0)
     return boys, girls
 
 
 @app.cell
-def _(mo):
+def _(mo: Any) -> None:
     mo.md(
         r"""
         ## Definition:
@@ -43,14 +44,14 @@ def _(mo):
 
 
 @app.cell
-def _(np):
+def _(np: Any) -> Tuple[Any, Callable, Callable]:
     from scipy.stats import entropy as e
 
-    def entropy(ts, base=None):
+    def entropy(ts: Any, base: Optional[int] = None) -> Any:
         ts = ts.dropna() / ts.sum()
         return e(ts, base=base)
 
-    def norm(ts):
+    def norm(ts: Any) -> Any:
         ts = ts.dropna() / ts.sum()
         return np.linalg.norm(ts, 2)
 
@@ -58,31 +59,31 @@ def _(np):
 
 
 @app.cell
-def _(entropy, girls):
+def _(entropy: Callable, girls: Any) -> None:
     girls.apply(entropy).sort_values()
     return
 
 
 @app.cell
-def _(girls, norm):
+def _(girls: Any, norm: Callable) -> None:
     girls.apply(norm).sort_values()
     return
 
 
 @app.cell
-def _(boys, entropy):
+def _(boys: Any, entropy: Callable) -> None:
     boys.apply(entropy).sort_values()
     return
 
 
 @app.cell
-def _(boys, norm):
+def _(boys: Any, norm: Callable) -> None:
     boys.apply(norm).sort_values()
     return
 
 
 @app.cell
-def _(boys, girls, pd):
+def _(boys: Any, girls: Any, pd: Any) -> Tuple[Any]:
     pair = pd.DataFrame(
         {"Boy": boys["Thomas"].dropna(), "Girl": girls["Charlotte"].dropna()}
     )
@@ -91,7 +92,7 @@ def _(boys, girls, pd):
 
 
 @app.cell
-def _():
+def _() -> Tuple[Any]:
     import marimo as mo
 
     return (mo,)

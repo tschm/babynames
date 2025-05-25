@@ -1,11 +1,12 @@
 import marimo
+from typing import Tuple, Any, Callable
 
 __generated_with = "0.10.7"
 app = marimo.App()
 
 
 @app.cell
-def _():
+def _() -> Tuple[Any]:
     import pandas as pd
 
     pd.options.display.max_rows = 20
@@ -13,7 +14,7 @@ def _():
 
 
 @app.cell
-def _(__file__):
+def _(__file__: str) -> Tuple[Any, Any]:
     from pathlib import Path
 
     path = Path(__file__).parent
@@ -21,28 +22,28 @@ def _(__file__):
 
 
 @app.cell
-def _(path, pd):
+def _(path: Any, pd: Any) -> Tuple[Any, Any]:
     boys = pd.read_csv(path / "data" / "boys.csv", index_col=0)
     girls = pd.read_csv(path / "data" / "girls.csv", index_col=0)
     return boys, girls
 
 
 @app.cell
-def _(boys):
+def _(boys: Any) -> None:
     boys
     return
 
 
 @app.cell
-def _(girls):
+def _(girls: Any) -> None:
     girls
     return
 
 
 @app.cell
-def _():
+def _() -> Tuple[Callable]:
     # write a function for the age of a name
-    def age(ts):
+    def age(ts: Any) -> Any:
         # get into probabilities
         p = ts.dropna() / ts.sum()
         # accumulate all the probabilities
@@ -54,25 +55,25 @@ def _():
 
 
 @app.cell
-def _(age, girls):
+def _(age: Callable, girls: Any) -> None:
     girls.apply(age).sort_values()
     return
 
 
 @app.cell
-def _(age, boys):
+def _(age: Callable, boys: Any) -> None:
     boys.apply(age).sort_values()
     return
 
 
 @app.cell
-def _(boys):
+def _(boys: Any) -> None:
     boys["Adolf"].dropna().plot()
     return
 
 
 @app.cell
-def _(boys):
+def _(boys: Any) -> None:
     boys["Adolf"].truncate(before=1946).sum()
     return
 
