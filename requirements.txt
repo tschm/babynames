@@ -19,7 +19,7 @@ scipy==1.15.3
 clarabel==0.11.0
 
 # Interactive notebook environment for data science
-marimo==0.13.10
+marimo==0.13.13
 
 # Framework for managing and maintaining pre-commit hooks
 pre-commit==4.2.0
