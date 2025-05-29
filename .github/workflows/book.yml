@@ -19,9 +19,9 @@ jobs:
     steps:
         # Set up the virtual environment with all dependencies
         - name: "Build the virtual environment for ${{ github.repository }}"
-          uses: tschm/cradle/actions/environment@v0.1.68
+          uses: tschm/cradle/actions/environment@v0.1.69
 
-        - uses: tschm/cradle/actions/jupyter@v0.1.68
+        - uses: tschm/cradle/actions/jupyter@v0.1.69
 
 
   # Job to set up and build the Marimo interactive notebook environment
@@ -30,9 +30,9 @@ jobs:
     steps:
       # Set up the virtual environment with all dependencies
       - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: tschm/cradle/actions/environment@v0.1.68
+        uses: tschm/cradle/actions/environment@v0.1.69
 
-      - uses: tschm/cradle/actions/marimo@v0.1.68
+      - uses: tschm/cradle/actions/marimo@v0.1.69
         with:
           source_folder: 'notebooks'  # Specify the folder containing Marimo notebooks
 
@@ -52,4 +52,4 @@ jobs:
         uses: actions/checkout@v4
 
       # Build and deploy the book to GitHub Pages
-      - uses: tschm/cradle/actions/book@v0.1.68
+      - uses: tschm/cradle/actions/book@v0.1.69
