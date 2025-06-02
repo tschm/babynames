@@ -41,6 +41,22 @@ jobs:
     needs: [jupyter, marimo]
 
     steps:
+      # Check out the repository code
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - run: |
+          ls -all
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        #with:
+        #  path: .book
+
+      - run: |
+          ls -all
+          ls -all artifacts
+
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
@@ -78,4 +94,4 @@ jobs:
         uses: actions/deploy-pages@v4
 
       # Build and deploy the book to GitHub Pages
-      # - uses: tschm/cradle/actions/book@v0.1.69
+      - uses: tschm/cradle/actions/book@v0.1.69
