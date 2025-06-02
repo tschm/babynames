@@ -12,14 +12,6 @@ def _(mo: Any) -> None:
 
 
 @app.cell
-def _(__file__: str) -> Tuple[Any, Any]:
-    from pathlib import Path
-
-    path = Path(__file__).parent
-    return Path, path
-
-
-@app.cell
 def _() -> Tuple[Any]:
     import pandas as pd
 
@@ -28,9 +20,10 @@ def _() -> Tuple[Any]:
 
 
 @app.cell
-def _(path: Any, pd: Any) -> Tuple[Any]:
+def _(mo, pd: Any) -> Tuple[Any]:
     names = pd.read_csv(
-        path / "assets" / "us.csv", index_col=["year", "Name", "Gender"]
+        mo.notebook_location() / "public" / "us.csv",
+        index_col=["year", "Name", "Gender"],
     )["n"]
     names
     return (names,)
