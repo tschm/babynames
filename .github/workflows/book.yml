@@ -51,11 +51,13 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: .book
+          path: artifacts
+        #with:
+        #  path: .book
 
       - run: |
           ls -all
-          ls -all .book
+          ls -all artifacts
 
       - name: Upload static files as artifact
         id: deployment
