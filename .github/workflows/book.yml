@@ -42,20 +42,20 @@ jobs:
 
     steps:
       # Check out the repository code
-      - name: Checkout [${{ github.repository }}]
-        uses: actions/checkout@v4
+      #- name: Checkout [${{ github.repository }}]
+      #  uses: actions/checkout@v4
 
       - run: |
           ls -all
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
-        #with:
-        #  path: .book
+        with:
+          path: .book
 
       - run: |
           ls -all
-          ls -all artifacts
+          ls -all .book
 
       - name: Upload static files as artifact
         id: deployment
