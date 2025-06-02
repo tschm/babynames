@@ -14,8 +14,11 @@ def _():
 
 @app.cell
 def _(mo, pd):
-    boys = pd.read_csv(mo.notebook_location() / "public" / "boys.csv", index_col=0)
-    girls = pd.read_csv(mo.notebook_location() / "public" / "girls.csv", index_col=0)
+    print(mo.notebook_location())
+    boys = pd.read_csv(str(mo.notebook_location() / "public" / "boys.csv"), index_col=0)
+    girls = pd.read_csv(
+        str(mo.notebook_location() / "public" / "girls.csv"), index_col=0
+    )
     return boys, girls
 
 
