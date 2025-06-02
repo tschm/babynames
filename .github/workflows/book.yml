@@ -32,9 +32,24 @@ jobs:
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: tschm/cradle/actions/environment@v0.1.69
 
-      - uses: tschm/cradle/actions/marimo@v0.1.69
+      - name: Convert notebook to HTML
+        run: |
+          uv run pip install --no-cache-dir marimo
+          mkdir -p artifacts/marimo
+          #uv run marimo export html app.py -o artifacts/marimo/index.html
+          uv run marimo export html-wasm notebooks/boring.py -o artifacts/marimo --mode run
+
+      - name: Upload HTML artifacts
+        #if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+        uses: actions/upload-artifact@v4
         with:
-          source_folder: 'notebooks'  # Specify the folder containing Marimo notebooks
+          name: marimo
+          path: artifacts/marimo
+          retention-days: 1
+
+      #- uses: tschm/cradle/actions/marimo@v0.1.69
+      #  with:
+      #    source_folder: 'notebooks'  # Specify the folder containing Marimo notebooks
 
   build:
     runs-on: ubuntu-latest
