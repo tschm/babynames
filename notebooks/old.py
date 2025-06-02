@@ -7,9 +7,10 @@ app = marimo.App()
 @app.cell
 def _():
     import pandas as pd
+    import marimo as mo
 
     pd.options.display.max_rows = 20
-    return (pd,)
+    return (mo, pd)
 
 
 @app.cell
