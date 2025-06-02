@@ -52,8 +52,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-        #with:
-        #  path: .book
 
       - run: |
           ls -all
@@ -96,4 +94,4 @@ jobs:
         uses: actions/deploy-pages@v4
 
       # Build and deploy the book to GitHub Pages
-      - uses: tschm/cradle/actions/book@v0.1.69
+      # - uses: tschm/cradle/actions/book@v0.1.69
