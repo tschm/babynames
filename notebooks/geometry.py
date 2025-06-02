@@ -23,8 +23,8 @@ def _(__file__):
 
 @app.cell
 def _(path, pd):
-    boys = pd.read_csv(path / "data" / "boys.csv", index_col=0)
-    girls = pd.read_csv(path / "data" / "girls.csv", index_col=0)
+    boys = pd.read_csv(path / "assets" / "boys.csv", index_col=0)
+    girls = pd.read_csv(path / "assets" / "girls.csv", index_col=0)
     return boys, girls
 
 

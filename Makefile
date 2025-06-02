@@ -44,6 +44,15 @@ marimo: install ## Install Marimo
 	@uv pip install --no-cache-dir  marimo
 	@uv run marimo edit notebooks
 
+.PHONY: slides
+slides: install
+	mkdir -p html_notebooks
+	@uv run marimo export html notebooks/boring.py -o html_notebooks/boring.html
+
+.PHONY: slides2
+slides2:
+	mkdir -p html_wasm
+	@uv run marimo export html-wasm notebooks/boring.py -o html_wasm --mode edit
 
 # Build the Jupyter Book documentation
 .PHONY: book
@@ -51,3 +60,4 @@ book: install ## Compile the book
 	@uv pip install --no-cache-dir  jupyterlab jupyter-book
 	@uv run jupyter-book clean book
 	@uv run jupyter-book build book
+	touch book/_build/html/.nojekyll

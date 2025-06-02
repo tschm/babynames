@@ -3,4 +3,6 @@
 format: jb-book
 root: docs/index
 chapters:
+    - url: https://tschm.github.io/babynames/marimo/boring.html
+      title: Boring Names
     - file: docs/marimo

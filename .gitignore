@@ -5,3 +5,6 @@ slides
 .venv
 book/_build
 __pycache__
+html_notebooks
+html_wasm
+.DS_Store

@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.10.7"
+__generated_with = "0.13.13"
 app = marimo.App()
 
 
@@ -13,17 +13,17 @@ def _():
 
 
 @app.cell
-def _(__file__):
+def _():
     from pathlib import Path
 
     path = Path(__file__).parent
-    return Path, path
+    return (path,)
 
 
 @app.cell
 def _(path, pd):
-    boys = pd.read_csv(path / "data" / "boys.csv", index_col=0)
-    girls = pd.read_csv(path / "data" / "girls.csv", index_col=0)
+    boys = pd.read_csv(path / "assets/boys.csv", index_col=0)
+    girls = pd.read_csv(path / "assets/girls.csv", index_col=0)
     return boys, girls
 
 
@@ -31,13 +31,13 @@ def _(path, pd):
 def _(mo):
     mo.md(
         r"""
-        ## Definition:
-        ### A name is boring if it's associated discrete distribution is close to a uniform distribution.
+    ## Definition:
+    ### A name is boring if it's associated discrete distribution is close to a uniform distribution.
 
-        ### The Shannon-entropy $\sum p_i \times \log p_i$ is maximal for the uniform distribution. Dangerous! (Kullback-Leibler)
+    ### The Shannon-entropy $\sum p_i \times \log p_i$ is maximal for the uniform distribution. Dangerous! (Kullback-Leibler)
 
-        ### The Euclidean norm $\sqrt{\sum p_i^2}$ is is minimal for the uniform distribution.
-        """
+    ### The Euclidean norm $\sqrt{\sum p_i^2}$ is is minimal for the uniform distribution.
+    """
     )
     return
 
@@ -54,7 +54,7 @@ def _(np):
         ts = ts.dropna() / ts.sum()
         return np.linalg.norm(ts, 2)
 
-    return e, entropy, norm
+    return entropy, norm
 
 
 @app.cell
@@ -87,7 +87,7 @@ def _(boys, girls, pd):
         {"Boy": boys["Thomas"].dropna(), "Girl": girls["Charlotte"].dropna()}
     )
     pair.plot()
-    return (pair,)
+    return
 
 
 @app.cell
