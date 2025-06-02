@@ -37,8 +37,12 @@ jobs:
           uv run pip install --no-cache-dir marimo
           mkdir -p artifacts/marimo
           #uv run marimo export html app.py -o artifacts/marimo/index.html
-          uv run marimo export html-wasm notebooks/boring.py -o artifacts/marimo --mode run
+          uv run marimo export html-wasm notebooks/boring.py -o artifacts/marimo --mode edit
 
+      - run: |
+          ls -all 
+          ls -all artifacts
+          
       - name: Upload HTML artifacts
         #if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
         uses: actions/upload-artifact@v4
@@ -61,6 +65,10 @@ jobs:
         with:
           path: artifacts
 
+      - run: |
+          ls -all
+          ls -all artifacts
+          
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
