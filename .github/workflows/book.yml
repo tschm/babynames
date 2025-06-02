@@ -36,12 +36,22 @@ jobs:
         with:
           source_folder: 'notebooks'  # Specify the folder containing Marimo notebooks
 
+  build:
+    runs-on: ubuntu-latest
+    needs: [jupyter, marimo]
+
+    steps:
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: artifacts/
+
   # Job to deploy the built book to GitHub Pages
   deploy-book:
     runs-on: ubuntu-latest
     # This job depends on both jupyter and marimo jobs completing successfully
-    needs: [ jupyter, marimo ]
-
+    needs: build
     # Need write permission to push to gh-pages branch
     permissions:
         pages: write      # to deploy to Pages
@@ -53,6 +63,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      #- name: Upload static files as artifact
+      #  id: deployment
+      #  uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+      #  with:
+      #    path: build_outputs_folder/
+
       # Check out the repository code
       #- name: Checkout [${{ github.repository }}]
       #  uses: actions/checkout@v4
