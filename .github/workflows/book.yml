@@ -41,21 +41,10 @@ jobs:
     needs: [jupyter, marimo]
 
     steps:
-      # Check out the repository code
-      #- name: Checkout [${{ github.repository }}]
-      #  uses: actions/checkout@v4
-
-      - run: |
-          ls -all
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-
-      - run: |
-          ls -all
-          ls -all artifacts
 
       - name: Upload static files as artifact
         id: deployment
@@ -79,19 +68,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      #- name: Upload static files as artifact
-      #  id: deployment
-      #  uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
-      #  with:
-      #    path: build_outputs_folder/
-
-      # Check out the repository code
-      #- name: Checkout [${{ github.repository }}]
-      #  uses: actions/checkout@v4
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      # Build and deploy the book to GitHub Pages
-      # - uses: tschm/cradle/actions/book@v0.1.69
