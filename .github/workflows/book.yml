@@ -53,6 +53,8 @@ jobs:
           #uv run marimo export html app.py -o artifacts/marimo/index.html
           # Export in edit mode to allow users to modify the notebook
           uv run marimo export html-wasm notebooks/boring.py -o artifacts/marimo --mode edit
+          # uv run marimo export html-wasm notebooks/boring.py -o artifacts/marimo/boring.html --mode edit
+          # ['marimo', 'export', 'html-wasm', '--mode', 'edit', 'notebooks/penguins.py', '-o', '_site/notebooks/penguins.html'
 
       # Upload the generated HTML-WASM files as a GitHub Actions artifact
       # This makes the files available for the deployment job
