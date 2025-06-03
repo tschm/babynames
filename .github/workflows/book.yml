@@ -9,7 +9,9 @@ name: deploy-book
 # Trigger the workflow on push events
 # This ensures the documentation is automatically updated whenever code changes are pushed
 on:
-  - push
+  push:
+    branches:
+      - main
 
 # Default permissions for all jobs
 # Restricting to read-only access for security, with specific permissions granted where needed
