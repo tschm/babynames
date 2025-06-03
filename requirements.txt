@@ -4,7 +4,7 @@
 matplotlib==3.10.3
 
 # Data manipulation and analysis library with Arrow-based engine
-polars==0.20.2
+polars==0.20.31
 
 # Numerical computing library for array operations
 numpy==2.2.6
