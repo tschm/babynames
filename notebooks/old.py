@@ -1,29 +1,22 @@
 import marimo
 
-__generated_with = "0.10.7"
+__generated_with = "0.13.15"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import pandas as pd
+    import marimo as mo
 
     pd.options.display.max_rows = 20
-    return (pd,)
+    return (mo, pd)
 
 
 @app.cell
-def _(__file__):
-    from pathlib import Path
-
-    path = Path(__file__).parent
-    return Path, path
-
-
-@app.cell
-def _(path, pd):
-    boys = pd.read_csv(path / "assets" / "boys.csv", index_col=0)
-    girls = pd.read_csv(path / "assets" / "girls.csv", index_col=0)
+def _(mo, pd):
+    boys = pd.read_csv(mo.notebook_location() / "public" / "boys.csv", index_col=0)
+    girls = pd.read_csv(mo.notebook_location() / "public" / "girls.csv", index_col=0)
     return boys, girls
 
 
@@ -39,28 +32,25 @@ def _(girls):
     return
 
 
-@app.cell
-def _():
-    # write a function for the age of a name
-    def age(ts):
-        # get into probabilities
-        p = ts.dropna() / ts.sum()
-        # accumulate all the probabilities
-        a = p.cumsum()
-        # get the first index where at least 50% of the babies have been boren
-        return a[a >= 0.5].index[0]
-
-    return (age,)
+@app.function
+# write a function for the age of a name
+def age(ts):
+    # get into probabilities
+    p = ts.dropna() / ts.sum()
+    # accumulate all the probabilities
+    a = p.cumsum()
+    # get the first index where at least 50% of the babies have been boren
+    return a[a >= 0.5].index[0]
 
 
 @app.cell
-def _(age, girls):
+def _(girls):
     girls.apply(age).sort_values()
     return
 
 
 @app.cell
-def _(age, boys):
+def _(boys):
     boys.apply(age).sort_values()
     return
 

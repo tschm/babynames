@@ -5,7 +5,10 @@ name: deploy-book
 
 # Trigger the workflow on push events
 on:
-  - push
+  push:
+    branches:
+      - main
+  
 
 # Default permissions for all jobs
 permissions:
@@ -32,24 +35,67 @@ jobs:
       - name: "Build the virtual environment for ${{ github.repository }}"
         uses: tschm/cradle/actions/environment@v0.1.69
 
-      - uses: tschm/cradle/actions/marimo@v0.1.69
+      - name: Convert notebook to HTML
+        run: |
+          uv run pip install --no-cache-dir marimo
+          mkdir -p artifacts/marimo
+          #uv run marimo export html app.py -o artifacts/marimo/index.html
+          uv run marimo export html-wasm notebooks/boring.py -o artifacts/marimo/boring.html --mode edit
+          # ['marimo', 'export', 'html-wasm', '--mode', 'run', '--no-show-code', 'apps/charts.py', '-o', '_site/apps/charts.html']
+          # ['marimo', 'export', 'html-wasm', '--mode', 'edit', 'notebooks/penguins.py', '-o', '_site/notebooks/penguins.html']
+
+      - run: |
+          ls -all
+          ls -all artifacts
+
+      - name: Upload HTML artifacts
+        #if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
+        uses: actions/upload-artifact@v4
         with:
-          source_folder: 'notebooks'  # Specify the folder containing Marimo notebooks
+          name: marimo
+          path: artifacts/marimo
+          retention-days: 1
+
+      #- uses: tschm/cradle/actions/marimo@v0.1.69
+      #  with:
+      #    source_folder: 'notebooks'  # Specify the folder containing Marimo notebooks
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [jupyter, marimo]
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - run: |
+          ls -all
+          ls -all artifacts
+
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: artifacts/
 
   # Job to deploy the built book to GitHub Pages
   deploy-book:
     runs-on: ubuntu-latest
     # This job depends on both jupyter and marimo jobs completing successfully
-    needs: [ jupyter, marimo ]
-
+    needs: build
     # Need write permission to push to gh-pages branch
     permissions:
-      contents: write
+        pages: write      # to deploy to Pages
+        id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      # Check out the repository code
-      - name: Checkout [${{ github.repository }}]
-        uses: actions/checkout@v4
-
-      # Build and deploy the book to GitHub Pages
-      - uses: tschm/cradle/actions/book@v0.1.69
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -3,7 +3,7 @@
 format: jb-book
 root: docs/index
 chapters:
-    - url: https://tschm.github.io/babynames/marimo/boring.html
+    - url: https://tschm.github.io/babynames/marimo/index.html
       title: Boring Names
 
     - url: https://tschm.github.io/babynames/marimo/elivs.html

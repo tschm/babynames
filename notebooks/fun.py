@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.10.7"
+__generated_with = "0.13.15"
 app = marimo.App()
 
 
@@ -8,14 +8,6 @@ app = marimo.App()
 def _(mo):
     mo.md(r"""# Fun with the SMI""")
     return
-
-
-@app.cell
-def _(__file__):
-    from pathlib import Path
-
-    path = Path(__file__).parent
-    return Path, path
 
 
 @app.cell
@@ -28,8 +20,8 @@ def _():
 
 
 @app.cell
-def _(path, pd):
-    prices = pd.read_csv(path / "assets" / "prices.csv", index_col=0)
+def _(mo, pd):
+    prices = pd.read_csv(mo.notebook_location() / "public" / "prices.csv", index_col=0)
 
     returns = prices.pct_change().fillna(0.0)
     returns
@@ -61,7 +53,7 @@ def _(cvx, pd, returns):
         return 100 * pd.Series(index=matrix.keys(), data=w.value).sort_values()
 
     min_var(returns).map("{:,.2f}%".format)
-    return (min_var,)
+    return
 
 
 @app.cell
@@ -77,7 +69,7 @@ def _(cvx, pd, returns):
         return 100 * pd.Series(index=matrix.keys(), data=w.value).sort_values()
 
     ridge(returns, 1).map("{:,.2f}%".format)
-    return (ridge,)
+    return
 
 
 @app.cell
@@ -97,7 +89,7 @@ def _(cvx, pd, returns):
     ElasticNet(returns, w0=0.05, lamb_balance=1, lamb_trades=0.03).map(
         "{:,.2f}%".format
     )
-    return (ElasticNet,)
+    return
 
 
 @app.cell
@@ -114,7 +106,7 @@ def _(cvx, pd):
         cvx.Problem(__objective(), [0 <= w, cvx.sum(w) == 1]).solve()
         return 100 * pd.Series(index=matrix.keys(), data=w.value).sort_values()
 
-    return (ElasticNet_1,)
+    return
 
 
 @app.cell

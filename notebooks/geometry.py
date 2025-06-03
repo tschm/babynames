@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.10.7"
+__generated_with = "0.13.15"
 app = marimo.App()
 
 
@@ -14,17 +14,9 @@ def _():
 
 
 @app.cell
-def _(__file__):
-    from pathlib import Path
-
-    path = Path(__file__).parent
-    return Path, path
-
-
-@app.cell
-def _(path, pd):
-    boys = pd.read_csv(path / "assets" / "boys.csv", index_col=0)
-    girls = pd.read_csv(path / "assets" / "girls.csv", index_col=0)
+def _(mo, pd):
+    boys = pd.read_csv(mo.notebook_location() / "public" / "boys.csv", index_col=0)
+    girls = pd.read_csv(mo.notebook_location() / "public" / "girls.csv", index_col=0)
     return boys, girls
 
 
@@ -32,12 +24,12 @@ def _(path, pd):
 def _(mo):
     mo.md(
         r"""
-        ## Each name lives on the unit-simplex
+    ## Each name lives on the unit-simplex
 
-        ## Each name can be projected to the unit-sphere
+    ## Each name can be projected to the unit-sphere
 
-        ## We compute the Bhattacharyya angle (correlation)
-        """
+    ## We compute the Bhattacharyya angle (correlation)
+    """
     )
     return
 
@@ -75,7 +67,7 @@ def _(pd, proj_sphere):
 def _(boys, girls, match):
     x = match(boys["Thomas"], girls)
     print(x)
-    return (x,)
+    return
 
 
 @app.cell

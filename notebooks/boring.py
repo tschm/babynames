@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.13.13"
+__generated_with = "0.13.15"
 app = marimo.App()
 
 
@@ -13,17 +13,12 @@ def _():
 
 
 @app.cell
-def _():
-    from pathlib import Path
-
-    path = Path(__file__).parent
-    return (path,)
-
-
-@app.cell
-def _(path, pd):
-    boys = pd.read_csv(path / "assets" / "boys.csv", index_col=0)
-    girls = pd.read_csv(path / "assets" / "girls.csv", index_col=0)
+def _(mo, pd):
+    print(mo.notebook_location())
+    boys = pd.read_csv(str(mo.notebook_location() / "public" / "boys.csv"), index_col=0)
+    girls = pd.read_csv(
+        str(mo.notebook_location() / "public" / "girls.csv"), index_col=0
+    )
     return boys, girls
 
 
