@@ -13,6 +13,7 @@ on:
     branches:
       - main
 
+
 # Default permissions for all jobs
 # Restricting to read-only access for security, with specific permissions granted where needed
 permissions:
