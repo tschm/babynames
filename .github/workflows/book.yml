@@ -99,25 +99,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-  # Job to deploy the built book to GitHub Pages
-  # This job publishes the combined artifacts to the GitHub Pages site
-  # deploy-book:
-    # runs-on: ubuntu-latest
-    # This job depends on the build job completing successfully
-    # needs: build
-    # Need specific permissions for GitHub Pages deployment
-    #permissions:
-    #    pages: write      # Permission to deploy to Pages
-    #    id-token: write   # Permission to verify deployment origin
-
-    # Configure the deployment environment
-    #environment:
-    #  name: github-pages
-    #  url: ${{ steps.deployment.outputs.page_url }}  # URL will be available after deployment
-
-    #steps:
-      # Deploy the artifact to GitHub Pages using GitHub's official action
-      # This publishes the website to the repository's GitHub Pages URL
-    #  - name: Deploy to GitHub Pages
-    #    id: deployment
-    #    uses: actions/deploy-pages@v4
