@@ -8,3 +8,4 @@ __pycache__
 html_notebooks
 html_wasm
 .DS_Store
+__marimo__
