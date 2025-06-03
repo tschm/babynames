@@ -81,8 +81,6 @@ jobs:
     needs: [jupyter, marimo]  # This job depends on both jupyter and marimo jobs
     environment:
       name: github-pages
-      url: ${{ steps.book.outputs.page_url }}  # URL will be available after deployment
     steps:
       - name: Publish book
-        id: book
         uses: tschm/cradle/actions/book@v0.1.71
