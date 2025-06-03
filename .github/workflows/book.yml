@@ -40,7 +40,7 @@ jobs:
           uv run marimo export html-wasm notebooks/boring.py -o artifacts/marimo/boring.html --mode edit
           # ['marimo', 'export', 'html-wasm', '--mode', 'run', '--no-show-code', 'apps/charts.py', '-o', '_site/apps/charts.html']
           # ['marimo', 'export', 'html-wasm', '--mode', 'edit', 'notebooks/penguins.py', '-o', '_site/notebooks/penguins.html']
-     
+
       - run: |
           ls -all
           ls -all artifacts
