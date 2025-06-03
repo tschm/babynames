@@ -5,4 +5,6 @@ root: docs/index
 chapters:
     - url: https://tschm.github.io/babynames/marimo/index.html
       title: Boring Names
-    - file: docs/marimo
+
+    - url: https://tschm.github.io/babynames/marimo/elivs.html
+      title: The Elvis effect
