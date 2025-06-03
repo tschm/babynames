@@ -5,7 +5,10 @@ name: deploy-book
 
 # Trigger the workflow on push events
 on:
-  - push
+  push:
+    branches:
+      - main
+  
 
 # Default permissions for all jobs
 permissions:
