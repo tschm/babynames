@@ -86,3 +86,7 @@ jobs:
       - name: Publish book
         id: book
         uses: tschm/cradle/actions/book@experiment1
+
+      - run: |
+          echo $url
+            
