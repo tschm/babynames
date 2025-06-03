@@ -78,12 +78,12 @@ jobs:
     needs: [jupyter, marimo]  # This job depends on both jupyter and marimo jobs
 
     steps:
-      # # Download all artifacts from previous jobs
-      # # This collects the outputs from both the jupyter and marimo jobs
-      # - name: Download all artifacts
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     path: artifacts
+      # Download all artifacts from previous jobs
+      # This collects the outputs from both the jupyter and marimo jobs
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
 
       # Package all artifacts for GitHub Pages deployment
       # This prepares the combined outputs for deployment
