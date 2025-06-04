@@ -3,8 +3,8 @@
 format: jb-book
 root: docs/index
 chapters:
-    - url: https://tschm.github.io/babynames/index.html
+    - url: https://tschm.github.io/babynames/marimo/boring/index.html
       title: Boring Names
 
-    - url: https://tschm.github.io/babynames/elvis.html
+    - url: https://tschm.github.io/babynames/marimo/elvis/index.html
       title: The Elvis effect

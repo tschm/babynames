@@ -39,7 +39,7 @@ def _(df, go, pl):
 
     # Create a plot
     _fig = go.Figure()
-    _fig.add_trace(go.Scatter(x=_f["year"], y=_f["n"], mode="lines"))
+    _fig.add_trace(go.Scatter(x=_f["year"].to_list(), y=_f["n"].to_list(), mode="lines"))
     _fig.update_layout(
         title="# Boys named Elvis",
         xaxis_title="Year",
@@ -63,7 +63,7 @@ def _(df, go, pl):
 
     # Create a plot
     _fig = go.Figure()
-    _fig.add_trace(go.Scatter(x=_f_1["year"], y=_f_1["n"], mode="lines"))
+    _fig.add_trace(go.Scatter(x=_f_1["year"].to_list(), y=_f_1["n"].to_list(), mode="lines"))
     _fig.update_layout(
         title="# Girls named Elvis",
         xaxis_title="Year",
@@ -87,7 +87,7 @@ def _(df, go, pl):
 
     # Create a plot
     _fig = go.Figure()
-    _fig.add_trace(go.Scatter(x=_f_2["year"], y=_f_2["n"], mode="lines"))
+    _fig.add_trace(go.Scatter(x=_f_2["year"].to_list(), y=_f_2["n"].to_list(), mode="lines"))
     _fig.update_layout(
         title="# Girls named Nikita",
         xaxis_title="Year",
