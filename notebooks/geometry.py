@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "marimo",
+#     "numpy==2.2.5",
+#     "plotly==6.1.1",
+#     "polars==1.29.0",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.13.15"
@@ -8,11 +18,11 @@ app = marimo.App()
 def _():
     import polars as pl
     import numpy as np
+    import plotly.graph_objects as go
 
     # Polars doesn't have the same display options as pandas
     # We'll use the default display settings
-    return np, pl
-
+    return np, pl, go
 
 @app.cell
 def _(mo, pl):
@@ -149,7 +159,7 @@ def _(boys, girls, match):
 
 
 @app.cell
-def _(match, pl, proj_simplex, np):
+def _(match, proj_simplex, np, pl, go):
     def pair_plot(ts1, ts2, project=True):
         # Project to simplex if requested
         if project:
@@ -170,9 +180,6 @@ def _(match, pl, proj_simplex, np):
 
         # Create a polars DataFrame
         df = pl.DataFrame({name1: ts1_np, name2: ts2_np})
-
-        # Polars doesn't have a built-in plot method, so we'll use plotly
-        import plotly.graph_objects as go
 
         # Create a scatter plot with plotly
         fig = go.Figure()
@@ -260,13 +267,6 @@ def _(boys, girls, match, pl):
 
     print(grouped_result)
     return
-
-
-@app.cell
-def _():
-    import marimo as mo
-
-    return (mo,)
 
 
 if __name__ == "__main__":

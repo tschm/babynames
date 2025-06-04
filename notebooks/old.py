@@ -55,8 +55,7 @@ def _(girls):
 
 @app.function
 # write a function for the age of a name
-def age(ts):
-    import numpy as np
+def age(ts, np):
 
     # Polars equivalent of dropna and sum
     # Convert to numpy for easier manipulation
@@ -105,12 +104,6 @@ def _(boys, pl):
     ).sort("age")
 
     print(_result)
-    return
-
-
-@app.cell
-def _(boys):
-    boys
     return
 
 
