@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "marimo",
+#     "numpy==2.2.5",
+#     "plotly==6.1.1",
+#     "polars==1.29.0",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.13.15"
@@ -8,10 +18,11 @@ app = marimo.App()
 def _():
     import polars as pl
     import marimo as mo
+    import plotly.graph_objects as go
 
     # Polars doesn't have the same display options as pandas
     # We'll use the default display settings
-    return (mo, pl)
+    return go, mo, pl
 
 
 @app.cell
@@ -64,21 +75,21 @@ def age(ts):
 
     # Return the year (assuming the first column is the year)
     # This might need adjustment based on the actual data structure
-    return first_idx + 1  # Adding 1 to match the original index
+    return first_idx + 1
 
 
 @app.cell
 def _(girls, pl):
     # Polars equivalent of apply and sort_values
     # Apply age function to each column and sort
-    result = pl.DataFrame(
+    _result = pl.DataFrame(
         {
             "column": girls.columns,
             "age": [age(girls.select(col).to_series()) for col in girls.columns],
         }
     ).sort("age")
 
-    print(result)
+    print(_result)
     return
 
 
@@ -86,32 +97,45 @@ def _(girls, pl):
 def _(boys, pl):
     # Polars equivalent of apply and sort_values
     # Apply age function to each column and sort
-    result = pl.DataFrame(
+    _result = pl.DataFrame(
         {
             "column": boys.columns,
             "age": [age(boys.select(col).to_series()) for col in boys.columns],
         }
     ).sort("age")
 
-    print(result)
+    print(_result)
     return
 
 
 @app.cell
-def _(boys, pl):
-    # Polars doesn't have a built-in plot method, so we'll use matplotlib
-    import matplotlib.pyplot as plt
+def _(boys):
+    boys
+    return
 
+
+@app.cell
+def _(boys, go, pl):
     # Extract the Adolf column and filter out null values
-    adolf_data = boys.select("Adolf").filter(pl.col("Adolf").is_not_null())
+    adolf_data = boys.select(["year", "Adolf"]).filter(pl.col("Adolf").is_not_null())
 
-    # Convert to pandas for plotting
-    adolf_pd = adolf_data.to_pandas()
+    # Convert to lists
+    x = adolf_data["year"].to_list()
+    y = adolf_data["Adolf"].to_list()
 
-    # Plot the data
-    adolf_pd.plot()
-    plt.title("Adolf")
-    plt.show()
+    # Create line chart
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="Adolf"))
+
+    # Add trace for Adolf data
+    #fig.add_trace(go.Scatter(y=adolf_data, mode="lines", name="Adolf"))
+
+    # Update layout
+    fig.update_layout(
+        title="Adolf", xaxis_title="Index", yaxis_title="Value", width=800, height=600
+    )
+
+    fig
     return
 
 

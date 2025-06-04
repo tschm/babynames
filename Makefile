@@ -6,22 +6,21 @@
 # Create a virtual environment using uv
 venv:
 	@curl -LsSf https://astral.sh/uv/install.sh | sh
-	@uv venv
+	#@uv venv
 
 
 # Mark install target as phony (not producing a file named 'install')
-.PHONY: install
-install: venv ## Install a virtual environment
-	@uv pip install --upgrade pip
-	@uv pip install --no-cache-dir  -r requirements.txt
+#.PHONY: install
+#install: venv ## Install a virtual environment
+#	@uv pip install --upgrade pip
+#	@uv pip install --no-cache-dir  -r requirements.txt
 
 
 # Format and lint the code using pre-commit
 .PHONY: fmt
 fmt: venv ## Run autoformatting and linting
-	@uv pip install --no-cache-dir  pre-commit
-	@uv run pre-commit install
-	@uv run pre-commit run --all-files
+	@uvx pre-commit install
+	@uvx pre-commit run --all-files
 
 
 # Clean up generated files and remove stale branches
@@ -40,24 +39,12 @@ help:  ## Display this help screen
 
 # Install and run Marimo for interactive notebooks
 .PHONY: marimo
-marimo: install ## Install Marimo
-	@uv pip install --no-cache-dir  marimo
-	@uv run marimo edit notebooks
-
-.PHONY: slides
-slides: install
-	mkdir -p html_notebooks
-	@uv run marimo export html notebooks/boring.py -o html_notebooks/boring.html
-
-.PHONY: slides2
-slides2:
-	mkdir -p html_wasm
-	@uv run marimo export html-wasm notebooks/boring.py -o html_wasm --mode edit
+marimo: ## Install Marimo
+	@uvx marimo edit --sandbox notebooks
 
 # Build the Jupyter Book documentation
 .PHONY: book
-book: install ## Compile the book
-	@uv pip install --no-cache-dir  jupyterlab jupyter-book
-	@uv run jupyter-book clean book
-	@uv run jupyter-book build book
+book: ## Compile the book
+	@uvx jupyter-book clean book
+	@uvx jupyter-book build book
 	touch book/_build/html/.nojekyll
