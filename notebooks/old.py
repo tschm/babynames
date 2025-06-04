@@ -7,11 +7,13 @@ app = marimo.App()
 @app.cell
 def _():
     import polars as pl
+    import plotly.graph_objects as go
+    import numpy as np
     import marimo as mo
 
     # Polars doesn't have the same display options as pandas
     # We'll use the default display settings
-    return (mo, pl)
+    return go, mo, np, pl
 
 
 @app.cell
@@ -42,76 +44,83 @@ def _(girls):
     return
 
 
-@app.function
-# write a function for the age of a name
-def age(ts):
-    import numpy as np
+@app.cell
+def _(np):
+    # write a function for the age of a name
+    def age(ts):
+        # Polars equivalent of dropna and sum
+        # Convert to numpy for easier manipulation
+        ts_filtered = ts.drop_nulls().to_numpy()
 
-    # Polars equivalent of dropna and sum
-    # Convert to numpy for easier manipulation
-    ts_filtered = ts.drop_nulls().to_numpy()
+        # Get into probabilities
+        p = ts_filtered / ts_filtered.sum()
 
-    # Get into probabilities
-    p = ts_filtered / ts_filtered.sum()
+        # Accumulate all the probabilities
+        a = np.cumsum(p)
 
-    # Accumulate all the probabilities
-    a = np.cumsum(p)
+        # Get the first index where at least 50% of the babies have been born
+        # This is a bit more complex in polars than pandas
+        # We need to find the first index where the cumulative sum is >= 0.5
+        first_idx = np.where(a >= 0.5)[0][0]
 
-    # Get the first index where at least 50% of the babies have been born
-    # This is a bit more complex in polars than pandas
-    # We need to find the first index where the cumulative sum is >= 0.5
-    first_idx = np.where(a >= 0.5)[0][0]
-
-    # Return the year (assuming the first column is the year)
-    # This might need adjustment based on the actual data structure
-    return first_idx + 1  # Adding 1 to match the original index
+        # Return the year (assuming the first column is the year)
+        # This might need adjustment based on the actual data structure
+        return first_idx + 1
+    return (age,)
 
 
 @app.cell
-def _(girls, pl):
+def _(age, boys, pl):
     # Polars equivalent of apply and sort_values
-    # Apply age function to each column and sort
-    result = pl.DataFrame(
-        {
-            "column": girls.columns,
-            "age": [age(girls.select(col).to_series()) for col in girls.columns],
-        }
-    ).sort("age")
-
-    print(result)
-    return
-
-
-@app.cell
-def _(boys, pl):
-    # Polars equivalent of apply and sort_values
-    # Apply age function to each column and sort
-    result = pl.DataFrame(
+    # Apply age function to each column3 and sort
+    _result = pl.DataFrame(
         {
             "column": boys.columns,
-            "age": [age(boys.select(col).to_series()) for col in boys.columns],
+            "age": [age(boys[col]) for col in boys.columns],
         }
     ).sort("age")
 
-    print(result)
+    print(_result)
     return
 
 
 @app.cell
-def _(boys, pl):
-    # Polars doesn't have a built-in plot method, so we'll use matplotlib
-    import matplotlib.pyplot as plt
+def _(age, girls, pl):
+    # Polars equivalent of apply and sort_values
+    # Apply age function to each column3 and sort
+    _result = pl.DataFrame(
+        {
+            "column": girls.columns,
+            "age": [age(girls[col]) for col in girls.columns],
+        }
+    ).sort("age")
 
+    print(_result)
+    return
+
+
+@app.cell
+def _(boys, go, pl):
     # Extract the Adolf column and filter out null values
-    adolf_data = boys.select("Adolf").filter(pl.col("Adolf").is_not_null())
+    adolf_data = boys.select(["year", "Adolf"]).filter(pl.col("Adolf").is_not_null())
 
-    # Convert to pandas for plotting
-    adolf_pd = adolf_data.to_pandas()
+    # Convert to lists
+    x = adolf_data["year"].to_list()
+    y = adolf_data["Adolf"].to_list()
 
-    # Plot the data
-    adolf_pd.plot()
-    plt.title("Adolf")
-    plt.show()
+    # Create line chart
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="Adolf"))
+
+    # Add trace for Adolf data
+    # fig.add_trace(go.Scatter(y=adolf_data, mode="lines", name="Adolf"))
+
+    # Update layout
+    fig.update_layout(
+        title="Adolf", xaxis_title="Index", yaxis_title="Value", width=800, height=600
+    )
+
+    fig
     return
 
 

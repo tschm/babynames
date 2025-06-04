@@ -1,0 +1,25 @@
+[project]
+name = "babynames-analysis"
+version = "0.0.0"
+description = "A simple Marimo project for analyzing baby name trends"
+authors = ["Thomas Schmelzer <thomas.schmelzer@gmail.com>"]
+requires-python = ">=3.12"
+dependencies = [
+    "marimo",
+    "pandas",
+    "polars",
+    "numpy",
+    "plotly"
+]
+
+#[tool.uv]  # Optional if you're using uv; safe to include
+
+
+#[project]
+#requires-python = ">=3.12"
+#dependencies = [
+#     "marimo",
+#     "numpy==2.2.5",
+#     "plotly==6.1.1",
+#     "polars==1.29.0",
+#]

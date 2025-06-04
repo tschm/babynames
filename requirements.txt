@@ -1,25 +1,13 @@
 # Python package dependencies for the babynames project
 
-# Data visualization library for creating plots and charts
-matplotlib==3.10.3
-
-# Data manipulation and analysis library with Arrow-based engine
-polars==1.30.0
-
 # Numerical computing library for array operations
 numpy==2.2.6
 
-# Convex optimization modeling library (base version)
-cvxpy-base==1.6.5
-
-# Scientific computing library for mathematics, science, and engineering
-scipy==1.15.3
-
-# Interior point solver for convex optimization problems
-clarabel==0.11.0
+# Interactive graphing library for creating interactive, publication-quality graphs
+plotly==6.1.2
 
 # Interactive notebook environment for data science
 marimo==0.13.15
 
-# Framework for managing and maintaining pre-commit hooks
-pre-commit==4.2.0
+# polars
+polars==1.30.0
