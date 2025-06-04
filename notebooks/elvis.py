@@ -15,123 +15,110 @@ def _(mo, pl):
     # Read CSV with polars
     # Polars handles multi-index differently than pandas
     # We'll read the CSV and then set up the data for filtering
-    us_path = str(mo.notebook_location() / "public" / "us.csv")
+    _us_path = str(mo.notebook_location() / "public" / "us.csv")
 
     # Read the CSV file
-    df = pl.read_csv(us_path)
+    df = pl.read_csv(_us_path)
 
     # Create a LazyFrame to allow for more complex operations
-    names = df.lazy()
+    _names = df.lazy()
 
     # Display the data
-    print(names.collect().head())
+    print(_names.collect().head())
 
-    return (df, names)
+    return (df,)
 
 
 @app.cell
-def _(df, pl):
+def _(df, go, pl):
     # Filter for Elvis and Male gender
-    f = df.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "M"))
+    _f = df.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "M"))
 
     # Sort by year for plotting
-    f = f.sort("year")
-
-    # Polars doesn't have a built-in plot method, so we'll use plotly
-    import plotly.graph_objects as go
+    _f = _f.sort("year")
 
     # Create a plot
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=f["year"], y=f["n"], mode="lines"))
-    fig.update_layout(
+    _fig = go.Figure()
+    _fig.add_trace(go.Scatter(x=_f["year"], y=_f["n"], mode="lines"))
+    _fig.update_layout(
         title="# Boys named Elvis",
         xaxis_title="Year",
-        yaxis_title="Count",
-        width=1000,
-        height=600,
-    )
-    fig.show()
+        yaxis_title="Count")
+    _fig.show()
 
     # Show top 10 years
     print("Top 10 years for Elvis:")
-    print(f.sort("n", descending=True).head(10))
+    print(_f.sort("n", descending=True).head(10))
 
-    return f
+    return
 
 
 @app.cell
-def _(df, pl):
+def _(df, go, pl):
     # Filter for Elvis and Female gender
-    f_1 = df.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "F"))
+    _f_1 = df.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "F"))
 
     # Sort by year for plotting
-    f_1 = f_1.sort("year")
-
-    # Polars doesn't have a built-in plot method, so we'll use plotly
-    import plotly.graph_objects as go
+    _f_1 = _f_1.sort("year")
 
     # Create a plot
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=f_1["year"], y=f_1["n"], mode="lines"))
-    fig.update_layout(
+    _fig = go.Figure()
+    _fig.add_trace(go.Scatter(x=_f_1["year"], y=_f_1["n"], mode="lines"))
+    _fig.update_layout(
         title="# Girls named Elvis",
         xaxis_title="Year",
-        yaxis_title="Count",
-        width=1000,
-        height=600,
+        yaxis_title="Count"
     )
-    fig.show()
+    _fig.show()
 
-    return f_1
+    return
 
 
 @app.cell
-def _(df, pl, go):
+def _(df, go, pl):
     # Filter for Nikita and Female gender
-    f_2 = df.filter((pl.col("Name") == "Nikita") & (pl.col("Gender") == "F"))
+    _f_2 = df.filter((pl.col("Name") == "Nikita") & (pl.col("Gender") == "F"))
 
     # Sort by year for plotting
-    f_2 = f_2.sort("year")
+    _f_2 = _f_2.sort("year")
 
     # Polars doesn't have a built-in plot method, so we'll use plotly
     # import plotly.graph_objects as go
 
     # Create a plot
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=f_2["year"], y=f_2["n"], mode="lines"))
-    fig.update_layout(
+    _fig = go.Figure()
+    _fig.add_trace(go.Scatter(x=_f_2["year"], y=_f_2["n"], mode="lines"))
+    _fig.update_layout(
         title="# Girls named Nikita",
         xaxis_title="Year",
-        yaxis_title="Count",
-        width=1000,
-        height=600,
+        yaxis_title="Count"
     )
-    fig.show()
+    _fig.show()
 
-    return f_2
+    return
 
 
 @app.cell
 def _(df, pl):
     # Group by Name and Gender and sum the counts
-    a = df.group_by(["Name", "Gender"]).agg(pl.sum("n").alias("total"))
+    _a = df.group_by(["Name", "Gender"]).agg(pl.sum("n").alias("total"))
 
     # Sort by total count
-    a = a.sort("total")
+    _a = _a.sort("total")
 
     # Display the results
     print("Names sorted by total count:")
-    print(a.head(20))
+    print(_a.head(20))
 
-    return a
+    return
 
 
 @app.cell
 def _():
     import marimo as mo
     import polars as pl
-
-    return (mo, pl)
+    import plotly.graph_objects as go
+    return go, mo, pl
 
 
 if __name__ == "__main__":

@@ -8,8 +8,8 @@ app = marimo.App()
 def _():
     import polars as pl
     import numpy as np
-
-    return np, pl
+    import plotly.graph_objects as go
+    return go, np, pl
 
 
 @app.cell
@@ -64,103 +64,121 @@ def _(np):
 
 @app.cell
 def _(entropy, girls, pl):
-    # Polars equivalent of apply and sort_values
-    # Apply entropy to each column and sort
-    result = girls.select(
-        [
-            pl.col(col_name).map_elements(entropy).alias(col_name)
-            for col_name in girls.columns
-        ]
-    )
-    # Sort the results
-    result = result.melt().sort("value")
-    print(result)
+    _d = {col: entropy(girls[col]) for col in girls.columns if col != "year"}
+
+    _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
+
+    # Convert to Polars DataFrame
+    _df_entropy = pl.DataFrame({
+        "column": list(_sorted_d.keys()),
+        "entropy": list(_sorted_d.values())
+    })
+
+    print(_df_entropy)
     return
 
 
 @app.cell
 def _(girls, norm, pl):
-    # Polars equivalent of apply and sort_values
-    # Apply norm to each column and sort
-    result = girls.select(
-        [
-            pl.col(col_name).map_elements(norm).alias(col_name)
-            for col_name in girls.columns
-        ]
-    )
-    # Sort the results
-    result = result.melt().sort("value")
-    print(result)
+    _d = {col: norm(girls[col]) for col in girls.columns if col != "year"}
+
+    _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
+
+    # Convert to Polars DataFrame
+    _df_norm = pl.DataFrame({
+        "column": list(_sorted_d.keys()),
+        "norm": list(_sorted_d.values())
+    })
+
+    print(_df_norm)
     return
 
 
 @app.cell
 def _(boys, entropy, pl):
-    # Polars equivalent of apply and sort_values
-    # Apply entropy to each column and sort
-    result = boys.select(
-        [
-            pl.col(col_name).map_elements(entropy).alias(col_name)
-            for col_name in boys.columns
-        ]
-    )
-    # Sort the results
-    result = result.melt().sort("value")
-    print(result)
+    _d = {col: entropy(boys[col]) for col in boys.columns if col != "year"}
+
+    _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
+
+    # Convert to Polars DataFrame
+    _df_entropy = pl.DataFrame({
+        "column": list(_sorted_d.keys()),
+        "entropy": list(_sorted_d.values())
+    })
+
+    print(_df_entropy)
     return
 
 
 @app.cell
 def _(boys, norm, pl):
-    # Polars equivalent of apply and sort_values
-    # Apply norm to each column and sort
-    result = boys.select(
-        [
-            pl.col(col_name).map_elements(norm).alias(col_name)
-            for col_name in boys.columns
-        ]
-    )
-    # Sort the results
-    result = result.melt().sort("value")
-    print(result)
+    _d = {col: norm(boys[col]) for col in boys.columns if col != "year"}
+
+    _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
+
+    # Convert to Polars DataFrame
+    _df_norm = pl.DataFrame({
+        "column": list(_sorted_d.keys()),
+        "norm": list(_sorted_d.values())
+    })
+
+    print(_df_norm)
     return
 
 
 @app.cell
-def _(boys, girls, pl):
-    # Polars equivalent of DataFrame creation and plot
-    # Filter out null values
-    boy_data = boys.filter(pl.col("Thomas").is_not_null()).select(
-        pl.col("Thomas").alias("Boy")
+def _(boys, girls, go, pl):
+    # Extract year and name data, drop nulls
+    boys_thomas = boys.select(["year", "Thomas"]).drop_nulls()
+    girls_charlotte = girls.select(["year", "Charlotte"]).drop_nulls()
+
+    print(boys_thomas)
+    print(girls_charlotte)
+
+    # Rename columns to a common structure
+    boys_thomas = boys_thomas.rename({"Thomas": "Boy"})
+    girls_charlotte = girls_charlotte.rename({"Charlotte": "Girl"})
+
+    # Outer join on year
+    #pair = boys_thomas.join(girls_charlotte, on="year", how="outer")
+
+    # Outer join from both sides to ensure all years included
+    all_years = (
+        pl.concat([boys_thomas.select("year"), girls_charlotte.select("year")])
+        .unique()
+        .sort("year")
     )
-    girl_data = girls.filter(pl.col("Charlotte").is_not_null()).select(
-        pl.col("Charlotte").alias("Girl")
+
+    print(all_years)
+
+    # Left-join each side onto the full year range, then combine
+    boys_filled = all_years.join(boys_thomas, on="year", how="left")
+    girls_filled = all_years.join(girls_charlotte, on="year", how="left")
+
+    print(boys_filled)
+    print(girls_filled)
+
+    # Merge both into one DataFrame and fill nulls with 0
+    pair = (
+        boys_filled.join(girls_filled, on="year", how="full")
+        .fill_null(0)
+        .sort("year")
     )
 
-    # Create a DataFrame with the filtered data
-    pair = pl.DataFrame([boy_data.to_series(0), girl_data.to_series(0)])
+    print(pair)
 
-    # Polars doesn't have a built-in plot method, so we'll use plotly
-    import plotly.graph_objects as go
-
-    # Create a line chart with plotly
+    # Create a line chart with Plotly
     fig = go.Figure()
+    fig.add_trace(go.Scatter(x=pair["year"], y=pair["Boy"], mode="lines", name="Thomas"))
+    fig.add_trace(go.Scatter(x=pair["year"], y=pair["Girl"], mode="lines", name="Charlotte"))
 
-    # Add traces for Boy and Girl
-    fig.add_trace(go.Scatter(y=pair.row(0), mode="lines", name="Boy"))
-
-    fig.add_trace(go.Scatter(y=pair.row(1), mode="lines", name="Girl"))
-
-    # Update layout
     fig.update_layout(
-        title="Boy vs Girl Names",
-        xaxis_title="Index",
-        yaxis_title="Value",
-        width=800,
-        height=600,
+        title="Name Popularity Over Time",
+        xaxis_title="Year",
+        yaxis_title="Count"
     )
 
-    fig.show()
+    fig
     return
 
 
