@@ -6,14 +6,14 @@
 # Create a virtual environment using uv
 venv:
 	@curl -LsSf https://astral.sh/uv/install.sh | sh
-	#@uv venv
+	@uv venv
 
 
 # Mark install target as phony (not producing a file named 'install')
-#.PHONY: install
-#install: venv ## Install a virtual environment
-#	@uv pip install --upgrade pip
-#	@uv pip install --no-cache-dir  -r requirements.txt
+.PHONY: install
+install: venv ## Install a virtual environment
+	@uv pip install --upgrade pip
+	@uv pip install --no-cache-dir  -r requirements.txt
 
 
 # Format and lint the code using pre-commit
@@ -39,8 +39,8 @@ help:  ## Display this help screen
 
 # Install and run Marimo for interactive notebooks
 .PHONY: marimo
-marimo: ## Install Marimo
-	@uvx marimo edit --sandbox notebooks
+marimo: install ## Install Marimo
+	@uvx marimo edit notebooks
 
 # Build the Jupyter Book documentation
 .PHONY: book
