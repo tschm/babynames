@@ -1,13 +1,3 @@
-# /// script
-# requires-python = ">=3.13"
-# dependencies = [
-#     "marimo",
-#     "numpy==2.2.5",
-#     "plotly==6.1.1",
-#     "polars==1.29.0",
-# ]
-# ///
-
 import marimo
 
 __generated_with = "0.13.15"
@@ -17,12 +7,13 @@ app = marimo.App()
 @app.cell
 def _():
     import polars as pl
-    import marimo as mo
     import plotly.graph_objects as go
+    import numpy as np
+    import marimo as mo
 
     # Polars doesn't have the same display options as pandas
     # We'll use the default display settings
-    return go, mo, pl
+    return go, mo, np, pl
 
 
 @app.cell
@@ -53,38 +44,39 @@ def _(girls):
     return
 
 
-@app.function
-# write a function for the age of a name
-def age(ts, np):
+@app.cell
+def _(np):
+    # write a function for the age of a name
+    def age(ts):
+        # Polars equivalent of dropna and sum
+        # Convert to numpy for easier manipulation
+        ts_filtered = ts.drop_nulls().to_numpy()
 
-    # Polars equivalent of dropna and sum
-    # Convert to numpy for easier manipulation
-    ts_filtered = ts.drop_nulls().to_numpy()
+        # Get into probabilities
+        p = ts_filtered / ts_filtered.sum()
 
-    # Get into probabilities
-    p = ts_filtered / ts_filtered.sum()
+        # Accumulate all the probabilities
+        a = np.cumsum(p)
 
-    # Accumulate all the probabilities
-    a = np.cumsum(p)
+        # Get the first index where at least 50% of the babies have been born
+        # This is a bit more complex in polars than pandas
+        # We need to find the first index where the cumulative sum is >= 0.5
+        first_idx = np.where(a >= 0.5)[0][0]
 
-    # Get the first index where at least 50% of the babies have been born
-    # This is a bit more complex in polars than pandas
-    # We need to find the first index where the cumulative sum is >= 0.5
-    first_idx = np.where(a >= 0.5)[0][0]
-
-    # Return the year (assuming the first column is the year)
-    # This might need adjustment based on the actual data structure
-    return first_idx + 1
+        # Return the year (assuming the first column is the year)
+        # This might need adjustment based on the actual data structure
+        return first_idx + 1
+    return (age,)
 
 
 @app.cell
-def _(girls, pl):
+def _(age, boys, pl):
     # Polars equivalent of apply and sort_values
-    # Apply age function to each column and sort
+    # Apply age function to each column3 and sort
     _result = pl.DataFrame(
         {
-            "column": girls.columns,
-            "age": [age(girls.select(col).to_series()) for col in girls.columns],
+            "column": boys.columns,
+            "age": [age(boys[col]) for col in boys.columns],
         }
     ).sort("age")
 
@@ -93,13 +85,13 @@ def _(girls, pl):
 
 
 @app.cell
-def _(boys, pl):
+def _(age, girls, pl):
     # Polars equivalent of apply and sort_values
-    # Apply age function to each column and sort
+    # Apply age function to each column3 and sort
     _result = pl.DataFrame(
         {
-            "column": boys.columns,
-            "age": [age(boys.select(col).to_series()) for col in boys.columns],
+            "column": girls.columns,
+            "age": [age(girls[col]) for col in girls.columns],
         }
     ).sort("age")
 
