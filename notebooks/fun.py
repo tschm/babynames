@@ -69,14 +69,30 @@ def _(returns, pl):
 @app.cell
 def _(prices):
     # Severe problems with data quality here...
-    # Polars doesn't have a built-in plot method, so we'll use matplotlib
-    import matplotlib.pyplot as plt
+    # Polars doesn't have a built-in plot method, so we'll use plotly
+    import plotly.graph_objects as go
 
-    # Extract the UBS Group AG column and plot it
-    ubs_data = prices.select("UBS Group AG").to_pandas()
-    ubs_data.plot()
-    plt.title("UBS Group AG")
-    plt.show()
+    # Extract the UBS Group AG column
+    ubs_data = prices.select("UBS Group AG")
+
+    # Create a line chart with plotly
+    fig = go.Figure()
+
+    # Add trace for UBS Group AG data
+    fig.add_trace(
+        go.Scatter(y=ubs_data["UBS Group AG"], mode="lines", name="UBS Group AG")
+    )
+
+    # Update layout
+    fig.update_layout(
+        title="UBS Group AG",
+        xaxis_title="Index",
+        yaxis_title="Value",
+        width=800,
+        height=600,
+    )
+
+    fig.show()
     return
 
 

@@ -128,7 +128,7 @@ def _(boys, go, pl):
     fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="Adolf"))
 
     # Add trace for Adolf data
-    #fig.add_trace(go.Scatter(y=adolf_data, mode="lines", name="Adolf"))
+    # fig.add_trace(go.Scatter(y=adolf_data, mode="lines", name="Adolf"))
 
     # Update layout
     fig.update_layout(

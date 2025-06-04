@@ -140,13 +140,27 @@ def _(boys, girls, pl):
     # Create a DataFrame with the filtered data
     pair = pl.DataFrame([boy_data.to_series(0), girl_data.to_series(0)])
 
-    # Polars doesn't have a built-in plot method, so we'll use matplotlib or plotly
-    import matplotlib.pyplot as plt
+    # Polars doesn't have a built-in plot method, so we'll use plotly
+    import plotly.graph_objects as go
 
-    # Convert to pandas for plotting (temporary solution)
-    pair_pd = pair.to_pandas()
-    pair_pd.plot()
-    plt.show()
+    # Create a line chart with plotly
+    fig = go.Figure()
+
+    # Add traces for Boy and Girl
+    fig.add_trace(go.Scatter(y=pair.row(0), mode="lines", name="Boy"))
+
+    fig.add_trace(go.Scatter(y=pair.row(1), mode="lines", name="Girl"))
+
+    # Update layout
+    fig.update_layout(
+        title="Boy vs Girl Names",
+        xaxis_title="Index",
+        yaxis_title="Value",
+        width=800,
+        height=600,
+    )
+
+    fig.show()
     return
 
 

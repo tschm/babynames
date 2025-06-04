@@ -1,7 +1,7 @@
 # Python package dependencies for the babynames project
 
-# Data visualization library for creating plots and charts
-matplotlib==3.10.3
+# Interactive data visualization library for creating web-based plots and charts
+plotly==5.18.0
 
 # Data manipulation and analysis library with Arrow-based engine
 polars==1.30.0

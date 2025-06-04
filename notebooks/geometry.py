@@ -171,13 +171,23 @@ def _(match, pl, proj_simplex, np):
         # Create a polars DataFrame
         df = pl.DataFrame({name1: ts1_np, name2: ts2_np})
 
-        # Polars doesn't have a built-in plot method, so we'll use matplotlib
-        import matplotlib.pyplot as plt
+        # Polars doesn't have a built-in plot method, so we'll use plotly
+        import plotly.graph_objects as go
 
-        # Convert to pandas for plotting
-        df_pd = df.to_pandas()
-        plot = df_pd.plot()
-        plt.show()
+        # Create a scatter plot with plotly
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=df[name1], y=df[name2], mode="markers"))
+        fig.update_layout(
+            title=f"{name1} vs {name2}",
+            xaxis_title=name1,
+            yaxis_title=name2,
+            width=800,
+            height=600,
+        )
+        fig.show()
+
+        # Return the figure for potential further use
+        plot = fig
 
         return plot
 
@@ -241,8 +251,14 @@ def _(boys, girls, match, pl):
 
 
 @app.cell
-def _(boys, girls, match):
-    match(boys, girls).reset_index().groupby(by="Name A")[0].mean().sort_values()
+def _(boys, girls, match, pl):
+    # Polars equivalent of reset_index, groupby, and mean
+    result = match(boys, girls)
+
+    # Group by Name A and calculate mean of value
+    grouped_result = result.group_by("Name A").agg(pl.mean("value")).sort("value")
+
+    print(grouped_result)
     return
 
 
