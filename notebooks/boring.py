@@ -3,29 +3,15 @@ import marimo
 __generated_with = "0.13.15"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     import polars as pl
     import numpy as np
     import plotly.graph_objects as go
-    return go, np, pl
+    import scipy.stats as st
+    from reader import boys, girls
 
-
-@app.cell
-def _(mo, pl):
-    print(mo.notebook_location())
-    # In polars, we read the CSV and then set the first column as index
-    boys_path = str(mo.notebook_location() / "public" / "boys.csv")
-    girls_path = str(mo.notebook_location() / "public" / "girls.csv")
-
-    # Read CSVs with polars
-    boys = pl.read_csv(boys_path)
-    girls = pl.read_csv(girls_path)
-
-    # Convert first column to index (polars doesn't have index like pandas)
-    # We'll keep the original structure for compatibility with the rest of the code
-    return boys, girls
+    g = girls()
+    b = boys()
 
 
 @app.cell
@@ -43,28 +29,25 @@ def _(mo):
     return
 
 
-@app.cell
-def _(np):
-    from scipy.stats import entropy as e
+@app.function
+def entropy(ts, base=None):
+    # Polars equivalent of dropna and sum
+    ts_filtered = ts.drop_nulls().to_numpy()
+    ts_normalized = ts_filtered / ts_filtered.sum()
+    return st.entropy(ts_normalized, base=base)
 
-    def entropy(ts, base=None):
-        # Polars equivalent of dropna and sum
-        ts_filtered = ts.drop_nulls().to_numpy()
-        ts_normalized = ts_filtered / ts_filtered.sum()
-        return e(ts_normalized, base=base)
 
-    def norm(ts):
-        # Polars equivalent of dropna and sum
-        ts_filtered = ts.drop_nulls().to_numpy()
-        ts_normalized = ts_filtered / ts_filtered.sum()
-        return np.linalg.norm(ts_normalized, 2)
-
-    return entropy, norm
+@app.function
+def norm(ts):
+    # Polars equivalent of dropna and sum
+    ts_filtered = ts.drop_nulls().to_numpy()
+    ts_normalized = ts_filtered / ts_filtered.sum()
+    return np.linalg.norm(ts_normalized, 2)
 
 
 @app.cell
-def _(entropy, girls, pl):
-    _d = {col: entropy(girls[col]) for col in girls.columns if col != "year"}
+def _():
+    _d = {col: entropy(g[col]) for col in g.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
@@ -79,8 +62,8 @@ def _(entropy, girls, pl):
 
 
 @app.cell
-def _(girls, norm, pl):
-    _d = {col: norm(girls[col]) for col in girls.columns if col != "year"}
+def _():
+    _d = {col: norm(g[col]) for col in g.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
@@ -95,8 +78,8 @@ def _(girls, norm, pl):
 
 
 @app.cell
-def _(boys, entropy, pl):
-    _d = {col: entropy(boys[col]) for col in boys.columns if col != "year"}
+def _():
+    _d = {col: entropy(b[col]) for col in b.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
@@ -111,8 +94,8 @@ def _(boys, entropy, pl):
 
 
 @app.cell
-def _(boys, norm, pl):
-    _d = {col: norm(boys[col]) for col in boys.columns if col != "year"}
+def _():
+    _d = {col: norm(b[col]) for col in b.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
@@ -127,10 +110,10 @@ def _(boys, norm, pl):
 
 
 @app.cell
-def _(boys, girls, go, pl):
+def _():
     # Extract year and name data, drop nulls
-    boys_thomas = boys.select(["year", "Thomas"]).drop_nulls()
-    girls_charlotte = girls.select(["year", "Charlotte"]).drop_nulls()
+    boys_thomas = b.select(["year", "Thomas"]).drop_nulls()
+    girls_charlotte = g.select(["year", "Charlotte"]).drop_nulls()
 
     print(boys_thomas)
     print(girls_charlotte)
