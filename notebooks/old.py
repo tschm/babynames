@@ -14,14 +14,6 @@ with app.setup:
     g = pl.read_csv(str(path / "public" / "girls.csv"))
     b = pl.read_csv(str(path / "public" / "boys.csv"))
 
-@app.cell
-def _():
-    import marimo as mo
-
-    # Polars doesn't have the same display options as pandas
-    # We'll use the default display settings
-    return mo
-
 
 @app.function
 def age(ts):
