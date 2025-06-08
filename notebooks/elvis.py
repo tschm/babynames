@@ -4,11 +4,14 @@ __generated_with = "0.13.15"
 app = marimo.App()
 
 with app.setup:
+    import marimo as mo
     import polars as pl
     import plotly.graph_objects as go
-    from reader import us
 
-    u = us()
+    path = mo.notebook_location()
+
+    u = pl.read_csv(str(path / "public" / "us.csv"))
+
 
 @app.cell
 def _(mo):

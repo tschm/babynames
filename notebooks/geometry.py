@@ -1,24 +1,16 @@
-# /// script
-# requires-python = ">=3.13"
-# dependencies = [
-#     "marimo",
-#     "numpy==2.2.5",
-#     "plotly==6.1.1",
-#     "polars==1.29.0",
-# ]
-# ///
-
 import marimo
 
 __generated_with = "0.13.15"
 app = marimo.App()
 
 with app.setup:
+    import marimo as mo
     import polars as pl
-    from reader import boys, girls
 
-    g = girls()
-    b = boys()
+    path = mo.notebook_location()
+
+    g = pl.read_csv(str(path / "public" / "girls.csv"))
+    b = pl.read_csv(str(path / "public" / "boys.csv"))
 
 @app.cell
 def _():
