@@ -3,106 +3,79 @@ import marimo
 __generated_with = "0.13.15"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     import polars as pl
     import plotly.graph_objects as go
     import numpy as np
+    from reader import boys, girls
+
+    g = girls()
+    b = boys()
+
+@app.cell
+def _():
     import marimo as mo
 
     # Polars doesn't have the same display options as pandas
     # We'll use the default display settings
-    return go, mo, np, pl
+    return mo
 
 
-@app.cell
-def _(mo, pl):
-    # Read CSV with polars
-    boys_path = str(mo.notebook_location() / "public" / "boys.csv")
-    girls_path = str(mo.notebook_location() / "public" / "girls.csv")
+@app.function
+def age(ts):
+    # Polars equivalent of dropna and sum
+    # Convert to numpy for easier manipulation
+    ts_filtered = ts.drop_nulls().to_numpy()
 
-    # Read CSVs with polars
-    boys = pl.read_csv(boys_path)
-    girls = pl.read_csv(girls_path)
+    # Get into probabilities
+    p = ts_filtered / ts_filtered.sum()
 
-    # In polars, we need to handle the index differently
-    # We'll assume the first column is the index (year)
+    # Accumulate all the probabilities
+    a = np.cumsum(p)
 
-    return boys, girls
+    # Get the first index where at least 50% of the babies have been born
+    # This is a bit more complex in polars than pandas
+    # We need to find the first index where the cumulative sum is >= 0.5
+    first_idx = np.where(a >= 0.5)[0][0]
 
+    # Return the year (assuming the first column is the year)
+    # This might need adjustment based on the actual data structure
+    return first_idx + 1
 
-@app.cell
-def _(boys):
-    boys
-    return
-
-
-@app.cell
-def _(girls):
-    girls
-    return
 
 
 @app.cell
-def _(np):
-    # write a function for the age of a name
-    def age(ts):
-        # Polars equivalent of dropna and sum
-        # Convert to numpy for easier manipulation
-        ts_filtered = ts.drop_nulls().to_numpy()
-
-        # Get into probabilities
-        p = ts_filtered / ts_filtered.sum()
-
-        # Accumulate all the probabilities
-        a = np.cumsum(p)
-
-        # Get the first index where at least 50% of the babies have been born
-        # This is a bit more complex in polars than pandas
-        # We need to find the first index where the cumulative sum is >= 0.5
-        first_idx = np.where(a >= 0.5)[0][0]
-
-        # Return the year (assuming the first column is the year)
-        # This might need adjustment based on the actual data structure
-        return first_idx + 1
-    return (age,)
-
-
-@app.cell
-def _(age, boys, pl):
+def _(mo):
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(
         {
-            "column": boys.columns,
-            "age": [age(boys[col]) for col in boys.columns],
+            "column": b.columns,
+            "age": [age(b[col]) for col in b.columns],
         }
     ).sort("age")
 
     print(_result)
-    return
 
 
 @app.cell
-def _(age, girls, pl):
+def _(mo):
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(
         {
-            "column": girls.columns,
-            "age": [age(girls[col]) for col in girls.columns],
+            "column": g.columns,
+            "age": [age(g[col]) for col in g.columns],
         }
     ).sort("age")
 
     print(_result)
-    return
 
 
 @app.cell
-def _(boys, go, pl):
+def _():
     # Extract the Adolf column and filter out null values
-    adolf_data = boys.select(["year", "Adolf"]).filter(pl.col("Adolf").is_not_null())
+    adolf_data = b.select(["year", "Adolf"]).filter(pl.col("Adolf").is_not_null())
 
     # Convert to lists
     x = adolf_data["year"].to_list()
@@ -121,18 +94,17 @@ def _(boys, go, pl):
     )
 
     fig
-    return
 
 
 @app.cell
-def _(boys, pl):
+def _():
     # Polars equivalent of truncate and sum
     # Filter the data to include only years after 1946
     # Assuming the first column is the year column
-    year_col = boys.columns[0]
+    year_col = b.columns[0]
 
     # Filter the Adolf column for years after 1946
-    adolf_after_1946 = boys.filter(pl.col(year_col) > 1946).select("Adolf")
+    adolf_after_1946 = b.filter(pl.col(year_col) > 1946).select("Adolf")
 
     # Sum the values
     adolf_sum = adolf_after_1946.select(pl.sum("Adolf")).item()

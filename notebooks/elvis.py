@@ -3,6 +3,12 @@ import marimo
 __generated_with = "0.13.15"
 app = marimo.App()
 
+with app.setup:
+    import polars as pl
+    import plotly.graph_objects as go
+    from reader import us
+
+    u = us()
 
 @app.cell
 def _(mo):
@@ -11,28 +17,11 @@ def _(mo):
 
 
 @app.cell
-def _(mo, pl):
-    # Read CSV with polars
-    # Polars handles multi-index differently than pandas
-    # We'll read the CSV and then set up the data for filtering
-    _us_path = str(mo.notebook_location() / "public" / "us.csv")
-
-    # Read the CSV file
-    df = pl.read_csv(_us_path)
-
-    # Create a LazyFrame to allow for more complex operations
-    _names = df.lazy()
-
-    # Display the data
-    print(_names.collect().head())
-
-    return (df,)
-
-
-@app.cell
-def _(df, go, pl):
+def _(mo):
     # Filter for Elvis and Male gender
-    _f = df.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "M"))
+
+
+    _f = u.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "M"))
 
     # Sort by year for plotting
     _f = _f.sort("year")
@@ -54,9 +43,9 @@ def _(df, go, pl):
 
 
 @app.cell
-def _(df, go, pl):
+def _(mo):
     # Filter for Elvis and Female gender
-    _f_1 = df.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "F"))
+    _f_1 = u.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "F"))
 
     # Sort by year for plotting
     _f_1 = _f_1.sort("year")
@@ -75,9 +64,9 @@ def _(df, go, pl):
 
 
 @app.cell
-def _(df, go, pl):
+def _(mo):
     # Filter for Nikita and Female gender
-    _f_2 = df.filter((pl.col("Name") == "Nikita") & (pl.col("Gender") == "F"))
+    _f_2 = u.filter((pl.col("Name") == "Nikita") & (pl.col("Gender") == "F"))
 
     # Sort by year for plotting
     _f_2 = _f_2.sort("year")
@@ -99,9 +88,9 @@ def _(df, go, pl):
 
 
 @app.cell
-def _(df, pl):
+def _(mo):
     # Group by Name and Gender and sum the counts
-    _a = df.group_by(["Name", "Gender"]).agg(pl.sum("n").alias("total"))
+    _a = u.group_by(["Name", "Gender"]).agg(pl.sum("n").alias("total"))
 
     # Sort by total count
     _a = _a.sort("total")
@@ -116,9 +105,7 @@ def _(df, pl):
 @app.cell
 def _():
     import marimo as mo
-    import polars as pl
-    import plotly.graph_objects as go
-    return go, mo, pl
+    return (mo,)
 
 
 if __name__ == "__main__":
