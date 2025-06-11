@@ -51,9 +51,6 @@ jobs:
 
       - name: Run notebook
         run: |
-          #uv venv
-          #uv pip install marimo
-          #echo "Processing ${{ matrix.notebook }}"
           uvx marimo run "${{ matrix.notebook }}" --sandbox --no-browser &
           pid=$!
           sleep 1
