@@ -44,8 +44,6 @@ jobs:
 
       - name: Run notebook
         run: |
-          uv pip install --no-cache-dir marimo
-
           cd notebooks
           echo "Processing ${{ matrix.notebook }}"
           uv run python "${{ matrix.notebook }}"
