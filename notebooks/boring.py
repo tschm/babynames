@@ -49,9 +49,9 @@ def norm(ts: pl.Series) -> float:
     return np.linalg.norm(ts_normalized, 2)
 
 
-@app.cell
-def _() -> None:
-    _d = {col: entropy(g[col]) for col in g.columns if col != "year"}
+@app.function
+def calculate_entropy(frame: pl.DataFrame) -> pl.DataFrame:
+    _d = {col: entropy(frame[col]) for col in frame.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
@@ -61,13 +61,21 @@ def _() -> None:
         "entropy": list(_sorted_d.values())
     })
 
-    print(_df_entropy)
-    return
+    return _df_entropy
 
 
 @app.cell
 def _() -> None:
-    _d = {col: norm(g[col]) for col in g.columns if col != "year"}
+    _df_entropy_girls = calculate_entropy(g)
+    _df_entropy_boys = calculate_entropy(b)
+    print(_df_entropy_girls)
+    print(_df_entropy_boys)
+    return
+
+
+@app.function
+def calculate_norm(frame: pl.DataFrame) -> pl.DataFrame:
+    _d = {col: norm(frame[col]) for col in frame.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
@@ -77,39 +85,15 @@ def _() -> None:
         "norm": list(_sorted_d.values())
     })
 
-    print(_df_norm)
-    return
+    return _df_norm
 
 
 @app.cell
 def _() -> None:
-    _d = {col: entropy(b[col]) for col in b.columns if col != "year"}
-
-    _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
-
-    # Convert to Polars DataFrame
-    _df_entropy = pl.DataFrame({
-        "column": list(_sorted_d.keys()),
-        "entropy": list(_sorted_d.values())
-    })
-
-    print(_df_entropy)
-    return
-
-
-@app.cell
-def _() -> None:
-    _d = {col: norm(b[col]) for col in b.columns if col != "year"}
-
-    _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
-
-    # Convert to Polars DataFrame
-    _df_norm = pl.DataFrame({
-        "column": list(_sorted_d.keys()),
-        "norm": list(_sorted_d.values())
-    })
-
-    print(_df_norm)
+    _df_norm_girls = calculate_norm(g)
+    print(_df_norm_girls)
+    _df_norm_boys = calculate_norm(b)
+    print(_df_norm_boys)
     return
 
 
