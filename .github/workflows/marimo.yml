@@ -40,8 +40,6 @@ jobs:
         notebook: ${{ fromJson(needs.list-notebooks.outputs.notebooks) }}
 
     steps:
-      #- name: "Build the virtual environment for ${{ github.repository }}"
-      #  uses: tschm/cradle/actions/environment@v0.1.72
       # Check out the repository code
       - name: Checkout [${{ github.repository }}]
         uses: actions/checkout@v4
@@ -54,5 +52,5 @@ jobs:
       - name: Run notebook
         run: |
           echo "Processing ${{ matrix.notebook }}"
-          uv run python "${{ matrix.notebook }}" --sandbox
+          uv run marimo run "${{ matrix.notebook }}" --sandbox
         working-directory: notebooks

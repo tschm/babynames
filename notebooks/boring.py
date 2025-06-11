@@ -9,7 +9,6 @@
 # ]
 # ///
 import marimo
-from typing import Optional, Any
 
 __generated_with = "0.13.15"
 app = marimo.App()
