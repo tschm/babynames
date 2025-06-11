@@ -59,9 +59,4 @@ jobs:
           sleep 1
           kill $pid
 
-          #marimo run notebook.py --no-browser &
-          #pid=$!
-          #sleep 2
-          #kill $pid
-
         working-directory: notebooks
