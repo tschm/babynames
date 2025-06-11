@@ -54,5 +54,14 @@ jobs:
           uv venv
           uv pip install marimo
           echo "Processing ${{ matrix.notebook }}"
-          uv run marimo run "${{ matrix.notebook }}" --sandbox
+          uv run marimo run "${{ matrix.notebook }}" --sandbox --no-browser &
+          pid=$!
+          sleep 1
+          kill $pid
+
+          #marimo run notebook.py --no-browser &
+          #pid=$!
+          #sleep 2
+          #kill $pid
+
         working-directory: notebooks
