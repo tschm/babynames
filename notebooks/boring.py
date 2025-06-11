@@ -91,8 +91,8 @@ def calculate_norm(frame: pl.DataFrame) -> pl.DataFrame:
 @app.cell
 def _() -> None:
     _df_norm_girls = calculate_norm(g)
-    print(_df_norm_girls)
     _df_norm_boys = calculate_norm(b)
+    print(_df_norm_girls)
     print(_df_norm_boys)
     return
 
