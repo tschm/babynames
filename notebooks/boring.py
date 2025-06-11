@@ -1,5 +1,14 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "marimo==0.13.15",
+#     "polars==1.30.0",
+#     "numpy==2.2.3",
+#     "plotly==6.1.2",
+#     "scipy==1.15.3",
+# ]
+# ///
 import marimo
-from typing import Optional, Any
 
 __generated_with = "0.13.15"
 app = marimo.App()
