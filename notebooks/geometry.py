@@ -1,4 +1,5 @@
 import marimo
+from typing import Any
 
 __generated_with = "0.13.15"
 app = marimo.App()
@@ -6,6 +7,7 @@ app = marimo.App()
 with app.setup:
     import marimo as mo
     import polars as pl
+    from typing import Any
 
     path = mo.notebook_location()
 
@@ -15,7 +17,7 @@ with app.setup:
 
 
 @app.cell
-def _(mo):
+def _(mo: Any) -> None:
     mo.md(
         r"""
     ## Each name can be projected to the unit-sphere
@@ -27,7 +29,7 @@ def _(mo):
 
 
 @app.function
-def match(body1, body2):
+def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
     # Polars equivalent of Series and DataFrame operations
     # Convert to DataFrame if it's a Series
     merged = body1.join(body2, on="year", how="left")
@@ -65,25 +67,25 @@ def match(body1, body2):
 
 
 @app.cell
-def _():
+def _() -> None:
     match(b.select(["year", "Thomas"]).drop_nulls(), g)
     return
 
 
 @app.cell
-def _():
+def _() -> None:
     match(b.select(["year", "Urs"]).drop_nulls(), b)
     return
 
 
 @app.cell
-def _():
+def _() -> None:
     match(b, g)
     return
 
 
 @app.cell
-def _():
+def _() -> None:
     # Polars equivalent of reset_index, groupby, and mean
     result = match(b, g)
 

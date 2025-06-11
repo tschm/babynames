@@ -1,4 +1,5 @@
 import marimo
+from typing import Any
 
 __generated_with = "0.13.15"
 app = marimo.App()
@@ -7,6 +8,7 @@ with app.setup:
     import marimo as mo
     import polars as pl
     import plotly.graph_objects as go
+    from typing import Any
 
     path = mo.notebook_location()
 
@@ -14,13 +16,13 @@ with app.setup:
 
 
 @app.cell
-def _(mo):
+def _(mo: Any) -> None:
     mo.md(r"""# The Elvis effect""")
     return
 
 
 @app.cell
-def _(mo):
+def _():
     # Filter for Elvis and Male gender
 
 
@@ -46,7 +48,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _() -> None:
     # Filter for Elvis and Female gender
     _f_1 = u.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "F"))
 
@@ -67,7 +69,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _() -> None:
     # Filter for Nikita and Female gender
     _f_2 = u.filter((pl.col("Name") == "Nikita") & (pl.col("Gender") == "F"))
 
@@ -91,7 +93,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _() -> None:
     # Group by Name and Gender and sum the counts
     _a = u.group_by(["Name", "Gender"]).agg(pl.sum("n").alias("total"))
 
