@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "marimo",
+#     "polars",
+#     "numpy",
+#     "plotly",
+#     "scipy"
+# ]
+# ///
 import marimo
 from typing import Optional, Any
 

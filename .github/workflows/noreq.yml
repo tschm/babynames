@@ -1,0 +1,21 @@
+name: "Marimo No Requirement Notebooks"
+# Workflow for running marimo notebooks
+# This workflow runs all marimo notebooks in the book/marimo directory in parallel
+# to ensure they execute without errors.
+
+on:
+  push:  # Triggered on every push to the repository
+
+permissions:
+  contents: read  # Read-only access to repository contents
+
+jobs:
+  run-notebook:
+    name: Run boring
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run notebook
+        run: |
+          uv run python notebook/boring.py
+        working-directory: notebooks
