@@ -2,7 +2,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "marimo==0.13.15",
-#     "polars==2.30.0",
+#     "polars==1.30.0",
 #     "numpy==2.30.0",
 #     "plotly==6.1.2",
 #     "scipy==1.15.3"
