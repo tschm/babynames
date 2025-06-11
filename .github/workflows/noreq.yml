@@ -15,7 +15,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Check out the repository code
+      - name: Checkout [${{ github.repository }}]
+        uses: actions/checkout@v4
+
+      - name: Install the latest version of uv and set the python version
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: 3.13
+
+      # Run notebook
       - name: Run notebook
         run: |
           uv run python notebooks/boring.py
-        working-directory: notebooks
+        working-directory: .
