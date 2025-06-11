@@ -49,10 +49,10 @@ jobs:
         with:
           python-version: 3.13
 
-      - name: Install marimo
-        run: |
-          uv venv
-          uv pip install --no-cache-dir marimo
+      #- name: Install marimo
+      #  run: |
+      #    uv venv
+      #    uv pip install --no-cache-dir marimo
 
       # Set up the Python virtual environment with all required dependencies
       # This uses a reusable action from the cradle repository
@@ -76,7 +76,7 @@ jobs:
             mkdir -p artifacts/marimo/$filename
 
             # Export in edit mode to allow users to modify the notebook
-            uv run marimo export html-wasm $notebook -o artifacts/marimo/$filename --sandbox --mode edit
+            uvx marimo export html-wasm $notebook -o artifacts/marimo/$filename/index.html --sandbox --mode edit
           done
 
           # List all exported notebooks
