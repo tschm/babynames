@@ -16,6 +16,7 @@ app = marimo.App()
 with app.setup:
     import marimo as mo
     import polars as pl
+    import numpy as np
     from typing import Any
 
     path = mo.notebook_location()
@@ -55,13 +56,10 @@ def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
     x_cols = [col for col in body1.columns if col != "year"]
     y_cols = [col for col in body2.columns if col != "year"]
 
-    # Create a result DataFrame with all combinations of x and y columns
-    # result_data = []
-
-    a = merged.select(x_cols).fill_null(0).to_numpy().transpose()
+    a = merged.select(x_cols).fill_null(0).to_numpy()
     b = merged.select(y_cols).fill_null(0).to_numpy()
 
-    scores = (a @ b)
+    scores = np.inner(a, b)
 
     # Create result as list of dicts
     result_data = [
