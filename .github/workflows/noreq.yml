@@ -27,5 +27,6 @@ jobs:
       # Run notebook
       - name: Run notebook
         run: |
-          uv run python notebooks/boring.py
+          uv pip install marimo
+          uv run marimo notebooks/boring.py --sandbox
         working-directory: .
