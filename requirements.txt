@@ -9,8 +9,8 @@ plotly==6.1.2
 # Interactive notebook environment for data science
 marimo==0.13.15
 
-# polars
-polars==1.30.0
-
 # scipy
 scipy==1.15.3
+
+# polars
+polars==1.30.0
