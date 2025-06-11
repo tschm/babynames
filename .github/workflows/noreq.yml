@@ -17,5 +17,5 @@ jobs:
     steps:
       - name: Run notebook
         run: |
-          uv run python notebook/boring.py
+          uv run python notebooks/boring.py
         working-directory: notebooks
