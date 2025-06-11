@@ -51,6 +51,7 @@ jobs:
 
       - name: Run notebook
         run: |
+          uv pip install marimo
           echo "Processing ${{ matrix.notebook }}"
           uv run marimo run "${{ matrix.notebook }}" --sandbox
         working-directory: notebooks
