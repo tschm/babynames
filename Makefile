@@ -33,8 +33,7 @@ help:  ## Display this help screen
 # Install and run Marimo for interactive notebooks
 .PHONY: marimo
 marimo: venv ## Install Marimo
-	@uv pip install -r notebooks/requirements.txt
-	@uv run marimo edit notebooks
+	@uv run marimo edit --sandbox notebooks/$(NOTEBOOK)
 
 # Build the Jupyter Book documentation
 .PHONY: book
