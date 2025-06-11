@@ -9,13 +9,6 @@ venv:
 	@uv venv
 
 
-# Mark install target as phony (not producing a file named 'install')
-.PHONY: install
-install: venv ## Install a virtual environment
-	@uv pip install --upgrade pip
-	@uv pip install --no-cache-dir  -r requirements.txt
-
-
 # Format and lint the code using pre-commit
 .PHONY: fmt
 fmt: venv ## Run autoformatting and linting
@@ -39,8 +32,9 @@ help:  ## Display this help screen
 
 # Install and run Marimo for interactive notebooks
 .PHONY: marimo
-marimo: install ## Install Marimo
-	@uvx marimo edit notebooks
+marimo: venv ## Install Marimo
+	@uv pip install -r notebooks/requirements.txt
+	@uv run marimo edit notebooks
 
 # Build the Jupyter Book documentation
 .PHONY: book

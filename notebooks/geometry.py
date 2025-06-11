@@ -59,7 +59,7 @@ def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
     a = merged.select(x_cols).fill_null(0).to_numpy()
     b = merged.select(y_cols).fill_null(0).to_numpy()
 
-    scores = np.inner(a, b)
+    scores = np.transpose(a) @ b
 
     # Create result as list of dicts
     result_data = [
