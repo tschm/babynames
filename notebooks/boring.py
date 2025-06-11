@@ -1,4 +1,5 @@
 import marimo
+from typing import Optional, Any
 
 __generated_with = "0.13.15"
 app = marimo.App()
@@ -9,6 +10,7 @@ with app.setup:
     import numpy as np
     import plotly.graph_objects as go
     import scipy.stats as st
+    from typing import Optional, Any
 
     path = mo.notebook_location()
 
@@ -17,7 +19,7 @@ with app.setup:
 
 
 @app.cell
-def _(mo):
+def _(mo: Any) -> None:
     mo.md(
         r"""
     ## Definition:
@@ -32,7 +34,7 @@ def _(mo):
 
 
 @app.function
-def entropy(ts, base=None):
+def entropy(ts: pl.Series, base: Optional[float] = None) -> float:
     # Polars equivalent of dropna and sum
     ts_filtered = ts.drop_nulls().to_numpy()
     ts_normalized = ts_filtered / ts_filtered.sum()
@@ -40,7 +42,7 @@ def entropy(ts, base=None):
 
 
 @app.function
-def norm(ts):
+def norm(ts: pl.Series) -> float:
     # Polars equivalent of dropna and sum
     ts_filtered = ts.drop_nulls().to_numpy()
     ts_normalized = ts_filtered / ts_filtered.sum()
@@ -48,7 +50,7 @@ def norm(ts):
 
 
 @app.cell
-def _():
+def _() -> None:
     _d = {col: entropy(g[col]) for col in g.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
@@ -64,7 +66,7 @@ def _():
 
 
 @app.cell
-def _():
+def _() -> None:
     _d = {col: norm(g[col]) for col in g.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
@@ -80,7 +82,7 @@ def _():
 
 
 @app.cell
-def _():
+def _() -> None:
     _d = {col: entropy(b[col]) for col in b.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
@@ -96,7 +98,7 @@ def _():
 
 
 @app.cell
-def _():
+def _() -> None:
     _d = {col: norm(b[col]) for col in b.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
@@ -112,7 +114,7 @@ def _():
 
 
 @app.cell
-def _():
+def _() -> None:
     # Extract year and name data, drop nulls
     boys_thomas = b.select(["year", "Thomas"]).drop_nulls()
     girls_charlotte = g.select(["year", "Charlotte"]).drop_nulls()

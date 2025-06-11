@@ -1,4 +1,5 @@
 import marimo
+from typing import Any
 
 __generated_with = "0.13.15"
 app = marimo.App()
@@ -8,6 +9,7 @@ with app.setup:
     import polars as pl
     import plotly.graph_objects as go
     import numpy as np
+    from typing import Any
 
     path = mo.notebook_location()
 
@@ -16,7 +18,7 @@ with app.setup:
 
 
 @app.function
-def age(ts):
+def age(ts: pl.Series) -> int:
     # Polars equivalent of dropna and sum
     # Convert to numpy for easier manipulation
     ts_filtered = ts.drop_nulls().to_numpy()
@@ -39,7 +41,7 @@ def age(ts):
 
 
 @app.cell
-def _(mo):
+def _(mo: Any) -> None:
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(
@@ -53,7 +55,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _(mo: Any) -> None:
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(
@@ -67,7 +69,7 @@ def _(mo):
 
 
 @app.cell
-def _():
+def _() -> None:
     # Extract the Adolf column and filter out null values
     adolf_data = b.select(["year", "Adolf"]).filter(pl.col("Adolf").is_not_null())
 
@@ -91,7 +93,7 @@ def _():
 
 
 @app.cell
-def _():
+def _() -> None:
     # Polars equivalent of truncate and sum
     # Filter the data to include only years after 1946
     # Assuming the first column is the year column
