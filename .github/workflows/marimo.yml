@@ -40,11 +40,11 @@ jobs:
         notebook: ${{ fromJson(needs.list-notebooks.outputs.notebooks) }}
 
     steps:
-      - name: "Build the virtual environment for ${{ github.repository }}"
-        uses: tschm/cradle/actions/environment@v0.1.72
+      #- name: "Build the virtual environment for ${{ github.repository }}"
+      #  uses: tschm/cradle/actions/environment@v0.1.72
 
       - name: Run notebook
         run: |
           echo "Processing ${{ matrix.notebook }}"
-          uv run python "${{ matrix.notebook }}"
+          uv run python "${{ matrix.notebook }}" --sandbox
         working-directory: notebooks
