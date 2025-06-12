@@ -4,14 +4,13 @@
 .DEFAULT_GOAL := help
 
 # Create a virtual environment using uv
-venv:
+uv:
 	@curl -LsSf https://astral.sh/uv/install.sh | sh
-	@uv venv
 
 
 # Format and lint the code using pre-commit
 .PHONY: fmt
-fmt: venv ## Run autoformatting and linting
+fmt: uv ## Run autoformatting and linting
 	@uvx pre-commit install
 	@uvx pre-commit run --all-files
 
@@ -32,7 +31,7 @@ help:  ## Display this help screen
 
 # Install and run Marimo for interactive notebooks
 .PHONY: marimo
-marimo: venv ## Install Marimo
+marimo: uv ## Install Marimo
 	@uv run marimo edit --sandbox notebooks/$(NOTEBOOK)
 
 # Build the Jupyter Book documentation
