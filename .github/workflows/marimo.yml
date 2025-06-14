@@ -1,6 +1,6 @@
 name: "Marimo Notebooks"
 # Workflow for running marimo notebooks
-# This workflow runs all marimo notebooks in the book/marimo directory in parallel
+# This workflow runs all marimo notebooks in the notebooks directory in parallel
 # to ensure they execute without errors.
 
 on:
@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read  # Read-only access to repository contents
-
 
 jobs:
   test:
