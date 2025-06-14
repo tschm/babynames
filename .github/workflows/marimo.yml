@@ -11,9 +11,6 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: tschm/marimushka/.github/workflows/test@main
-        with:
-          notebook-dir: 'notebooks'
+    uses: tschm/marimushka/.github/workflows/test.yml@main
+    with:
+      notebook-dir: 'notebooks'
