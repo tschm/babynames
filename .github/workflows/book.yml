@@ -1,102 +1,52 @@
-# Workflow for building and deploying the Jupyter Book documentation
-# This workflow is triggered on push events and performs the following tasks:
-# 1. Builds Jupyter Book documentation from notebook files
-# 2. Builds Marimo interactive notebooks and exports them to HTML-WASM format
-# 3. Combines all artifacts and deploys them to GitHub Pages
+# This workflow builds and deploys marimo notebooks to GitHub Pages
+# It runs automatically when changes are pushed to the main branch or can be triggered manually
 
-name: deploy-book
+name: Deploy to GitHub Pages
 
-# Trigger the workflow on push events
-# This ensures the documentation is automatically updated whenever code changes are pushed to main
+# Defines when the workflow will run
 on:
   push:
-    branches:
-      - main
+    branches: ['main']  # Trigger on pushes to main branch
+  workflow_dispatch:    # Allow manual triggering from the GitHub UI
 
+# Concurrency settings to manage multiple workflow runs
+concurrency:
+  group: 'pages'             # Only one workflow in the 'pages' group can run at a time
+  cancel-in-progress: false  # Don't cancel in-progress runs when a new one is triggered
 
-# Default permissions for all jobs
-# Restricting to read-only access for security, with specific permissions granted where needed
-permissions:
-  contents: read
+# Environment variables used by the workflow
+env:
+  UV_SYSTEM_PYTHON: 1   # Use system Python with uv package manager
 
-# This workflow contains multiple jobs that run in parallel and sequentially
 jobs:
-  # Job to build the Jupyter Book documentation
-  # This converts Jupyter notebooks to a static website with navigation and search
-  jupyter:
-    runs-on: ubuntu-latest
-    steps:
-        # Check out the repository code
-        - name: Checkout [${{ github.repository }}]
-          uses: actions/checkout@v4
-
-        # Build the Jupyter Book using a reusable action
-        # This action handles the book building process including configuration
-        - uses: tschm/cradle/actions/jupyter@v0.1.72
-
-
-  # Job to build Marimo interactive notebooks and export them to HTML-WASM
-  # This creates interactive web applications from Python notebook files
-  marimo:
-    runs-on: ubuntu-latest
-    steps:
-      # Check out the repository code
-      - name: Checkout [${{ github.repository }}]
-        uses: actions/checkout@v4
-
-      - name: Install the latest version of uv and set the python version
-        uses: astral-sh/setup-uv@v6
-        with:
-          python-version: 3.13
-
-      # Convert all Marimo notebooks to HTML-WASM format
-      # The WASM format allows for interactive elements to work in the browser
-      - name: Convert notebooks to HTML-WASM
-        run: |
-          # uv run pip install --no-cache-dir marimo
-          mkdir -p artifacts/marimo
-
-          # Find all Python files in the notebooks directory and export them to HTML-WASM
-          for notebook in notebooks/*.py; do
-            # Extract the filename without extension
-            filename=$(basename "$notebook" .py)
-            echo "Exporting $notebook to HTML-WASM..."
-
-            # Create output directory for this notebook
-            mkdir -p artifacts/marimo/$filename
-
-            # Export in edit mode to allow users to modify the notebook
-            uvx marimo export html-wasm $notebook -o artifacts/marimo/$filename/index.html --sandbox --mode edit
-          done
-
-          # List all exported notebooks
-          echo "Exported notebooks:"
-          ls -la artifacts/marimo/
-
-      # Upload the generated HTML-WASM files as a GitHub Actions artifact
-      # This makes the files available for the deployment job
-      - name: Upload HTML artifacts
-        # Note: This conditional is commented out but would skip upload when running locally with act
-        #if: ${{ env.ACT != 'true' }}  # Skip if running with 'act'
-        uses: actions/upload-artifact@v4
-        with:
-          name: marimo
-          path: artifacts/marimo
-          retention-days: 1  # Keep artifacts for 1 day to save storage
-
-
-  # Job to combine all artifacts and prepare them for deployment
-  # This job runs after both jupyter and marimo jobs have completed
+  # The build job exports marimo notebooks to static HTML/WebAssembly
   build:
-    permissions:
-      pages: write            # Permission to deploy to Pages
-      id-token: write         # Permission to verify deployment origin
-    runs-on: ubuntu-latest
-    needs: [jupyter, marimo]  # This job depends on both jupyter and marimo jobs
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     steps:
-      - name: Publish book
-        id: deployment
-        uses: tschm/cradle/actions/book@v0.1.72
+      - uses: tschm/marimushka/actions/export@main
+        #with:
+        #  template: 'templates/bare.html.j2'
+        # declare which template
+        # declare folder names
+
+
+  # The deploy job publishes the built site to GitHub Pages
+  deploy:
+    needs: build  # This job depends on the build job completing successfully
+
+    # Required permissions for the GitHub Pages deployment
+    permissions:
+      pages: write      # Permission to deploy to Pages
+      id-token: write   # Permission to verify the deployment
+
+    # Configure the deployment environment
+    environment:
+      name: github-pages                             # Deploy to the github-pages environment
+      url: ${{ steps.deployment.outputs.page_url }}  # Use the URL from the deployment step
+
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    steps:
+      # Deploy the site to GitHub Pages using the official action
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment                 # ID used to reference this step's outputs
+        uses: actions/deploy-pages@v4  # GitHub's official Pages deployment action
