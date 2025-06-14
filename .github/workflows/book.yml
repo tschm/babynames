@@ -24,11 +24,6 @@ jobs:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     steps:
       - uses: tschm/marimushka/actions/export@main
-        #with:
-        #  template: 'templates/bare.html.j2'
-        # declare which template
-        # declare folder names
-
 
   # The deploy job publishes the built site to GitHub Pages
   deploy:
