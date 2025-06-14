@@ -17,10 +17,6 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    outputs:
-      # This output variable makes the tag available to other jobs in the workflow
-      # Although not used in this workflow, it could be used by future jobs
-      new_tag: ${{ steps.tag_version.outputs.new_tag }}
     steps:
       # Use the cradle/actions/tag action to generate a semantic version tag
       # This automatically determines the next version number based on commit messages
@@ -29,9 +25,3 @@ jobs:
         uses: tschm/cradle/actions/tag@v0.1.72
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Output the generated tag for debugging and verification purposes
-      # This helps confirm that the tag was created successfully
-      - name: Debug Output Tag
-        run: |
-            echo "Tag: ${{ steps.tag_version.outputs.new_tag }}"

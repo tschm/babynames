@@ -16,9 +16,5 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      # Check out the repository code
-      - name: Checkout [${{ github.repository }}]
-        uses: actions/checkout@v4
-
       # Run pre-commit checks using the cradle action
       - uses: tschm/cradle/actions/pre-commit@v0.1.72
