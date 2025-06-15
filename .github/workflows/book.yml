@@ -23,7 +23,7 @@ jobs:
   marimo:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     steps:
-      - uses: tschm/marimushka/actions/export@main
+      - uses: tschm/marimushka/actions/export@v0.0.7
 
   # Job to combine all artifacts and prepare them for deployment
   # This job runs after both jupyter and marimo jobs have completed
