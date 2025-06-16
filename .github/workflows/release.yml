@@ -9,13 +9,13 @@ name: Bump version
 on:
   workflow_dispatch
 
+permissions:
+  contents: 'write'
+
 jobs:
   # Job to generate a new version tag based on semantic versioning
   # This creates a new git tag with an incremented version number
   tagging:
-    # Permission to write to repository contents (needed to create tags)
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
     steps:
       # Use the cradle/actions/tag action to generate a semantic version tag
@@ -25,3 +25,13 @@ jobs:
         uses: tschm/cradle/actions/tag@v0.1.72
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  # The build job exports marimo notebooks to static HTML/WebAssembly
+  publish:
+    needs: tagging
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    steps:
+      - uses: tschm/marimushka/actions/export@v0.0.16
+        with:
+          notebooks: notebooks
+          publish: 'true'

@@ -1,7 +1,7 @@
 # This workflow builds and deploys marimo notebooks to GitHub Pages
 # It runs automatically when changes are pushed to the main branch or can be triggered manually
 
-name: Deploy to GitHub Pages
+name: MAINTENANCE
 
 # Defines when the workflow will run
 on:
@@ -10,14 +10,16 @@ on:
   workflow_dispatch:    # Allow manual triggering from the GitHub UI
 
 permissions:
-  contents: 'write'
+  contents: 'read'
 
 jobs:
-  # The build job exports marimo notebooks to static HTML/WebAssembly
-  marimo:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+  pre-commit:
+    runs-on: ubuntu-latest
     steps:
-      - uses: tschm/marimushka/actions/export@v0.0.16
-        with:
-          notebooks: notebooks
-          publish: 'true'
+      # Run pre-commit checks using the cradle action
+      - uses: tschm/cradle/actions/pre-commit@v0.1.72
+
+  test:
+    uses: tschm/marimushka/.github/workflows/test.yml@v0.0.16
+    with:
+      notebook-dir: notebooks
