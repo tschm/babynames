@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <!-- Preload is necessary because we show these images when we disconnect from the server,
+    but at that point we cannot load these images from the server -->
+    <link rel="preload" href="./assets/gradient-yHQUC_QB.png" as="image" />
+    <link rel="preload" href="./assets/noise-60BoTA8O.png" as="image" />
+    <!-- Preload the fonts -->
+    <link rel="preload" href="./assets/Lora-VariableFont_wght-B2ootaw-.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Regular-CxL0S8W7.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Bold-D9fedIX3.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Regular-BTCkDNvf.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Medium-DU3aDxX5.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Bold-CLVRCuM9.ttf" as="font" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="a marimo app" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <script data-marimo="true">
+      function __resizeIframe(obj) {
+        var scrollbarHeight = 20; // Max between windows, mac, and linux
+
+        function setHeight() {
+          var element = obj.contentWindow.document.documentElement;
+          // If there is no vertical scrollbar, we don't need to resize the iframe
+          if (element.scrollHeight === element.clientHeight) {
+            return;
+          }
+
+          // Create a new height that includes the scrollbar height if it's visible
+          var hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+          var newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
+
+          // Only update the height if it's different from the current height
+          if (obj.style.height !== `${newHeight}px`) {
+            obj.style.height = `${newHeight}px`;
+          }
+        }
+
+        // Resize the iframe to the height of the content and bottom scrollbar height
+        setHeight();
+
+        // Resize the iframe when the content changes
+        const resizeObserver = new ResizeObserver((entries) => {
+          setHeight();
+        });
+        resizeObserver.observe(obj.contentWindow.document.body);
+      }
+    </script>
+    <marimo-filename hidden>notebook.py</marimo-filename>
+    <marimo-mode data-mode='edit' hidden></marimo-mode>
+    <marimo-version data-version='0.13.15' hidden></marimo-version>
+    <marimo-user-config data-config='{"completion": {"activate_on_typing": true, "copilot": false}, "display": {"theme": "light", "code_editor_font_size": 14, "cell_output": "above", "default_width": "medium", "dataframes": "rich", "default_table_page_size": 10}, "formatting": {"line_length": 79}, "keymap": {"preset": "default", "overrides": {}}, "runtime": {"auto_instantiate": true, "auto_reload": "off", "reactive_tests": true, "on_cell_change": "autorun", "watcher_on_save": "lazy", "output_max_bytes": 8000000, "std_stream_max_bytes": 1000000, "default_sql_output": "auto"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "package_management": {"manager": "pip"}, "server": {"browser": "default", "follow_symlink": false}, "language_servers": {"pylsp": {"enabled": true, "enable_mypy": true, "enable_ruff": true, "enable_flake8": false, "enable_pydocstyle": false, "enable_pylint": false, "enable_pyflakes": false}}, "snippets": {"custom_paths": [], "include_default_snippets": true}}' data-overrides='{}' hidden></marimo-user-config>
+    <marimo-app-config data-config='{"width": "compact", "sql_output": "auto"}' hidden></marimo-app-config>
+    <marimo-server-token data-token='123' hidden></marimo-server-token>
+    <title>boring</title>
+    <script type="module" crossorigin src="./assets/index-aRpq2G87.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BqXWXM9d.css">
+  <marimo-wasm hidden=""></marimo-wasm>
+    <script>
+        if (window.location.protocol === 'file:') {
+            alert('Warning: This file must be served by an HTTP server to function correctly.');
+        }
+    </script>
+    
+    <style>
+        #save-button {
+            display: none !important;
+        }
+        #filename-input {
+            display: none !important;
+        }
+    </style>
+    <marimo-code hidden="" data-show-code="false">import%20marimo%0A%0A__generated_with%20%3D%20%220.13.15%22%0Aapp%20%3D%20marimo.App()%0A%0Awith%20app.setup%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20import%20polars%20as%20pl%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20import%20plotly.graph_objects%20as%20go%0A%20%20%20%20import%20scipy.stats%20as%20st%0A%20%20%20%20from%20typing%20import%20Optional%2C%20Any%0A%0A%20%20%20%20path%20%3D%20mo.notebook_location()%0A%0A%20%20%20%20g%20%3D%20pl.read_csv(str(path%20%2F%20%22public%22%20%2F%20%22girls.csv%22))%0A%20%20%20%20b%20%3D%20pl.read_csv(str(path%20%2F%20%22public%22%20%2F%20%22boys.csv%22))%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20mo.md(%0A%20%20%20%20%20%20%20%20r%22%22%22%0A%20%20%20%20%23%23%20Definition%3A%0A%20%20%20%20%23%23%23%20A%20name%20is%20boring%20if%20it's%20associated%20discrete%20distribution%20is%20close%20to%20a%20uniform%20distribution.%0A%0A%20%20%20%20%23%23%23%20The%20Shannon-entropy%20%24%5Csum%20p_i%20%5Ctimes%20%5Clog%20p_i%24%20is%20maximal%20for%20the%20uniform%20distribution.%20Dangerous!%20(Kullback-Leibler)%0A%0A%20%20%20%20%23%23%23%20The%20Euclidean%20norm%20%24%5Csqrt%7B%5Csum%20p_i%5E2%7D%24%20is%20is%20minimal%20for%20the%20uniform%20distribution.%0A%20%20%20%20%22%22%22%0A%20%20%20%20)%0A%20%20%20%20return%0A%0A%0A%40app.function%0Adef%20entropy(ts%3A%20pl.Series%2C%20base%3A%20Optional%5Bfloat%5D%20%3D%20None)%20-%3E%20float%3A%0A%20%20%20%20%23%20Polars%20equivalent%20of%20dropna%20and%20sum%0A%20%20%20%20ts_filtered%20%3D%20ts.drop_nulls().to_numpy()%0A%20%20%20%20ts_normalized%20%3D%20ts_filtered%20%2F%20ts_filtered.sum()%0A%20%20%20%20return%20st.entropy(ts_normalized%2C%20base%3Dbase)%0A%0A%0A%40app.function%0Adef%20norm(ts%3A%20pl.Series)%20-%3E%20float%3A%0A%20%20%20%20%23%20Polars%20equivalent%20of%20dropna%20and%20sum%0A%20%20%20%20ts_filtered%20%3D%20ts.drop_nulls().to_numpy()%0A%20%20%20%20ts_normalized%20%3D%20ts_filtered%20%2F%20ts_filtered.sum()%0A%20%20%20%20return%20np.linalg.norm(ts_normalized%2C%202)%0A%0A%0A%40app.function%0Adef%20calculate_entropy(frame%3A%20pl.DataFrame)%20-%3E%20pl.DataFrame%3A%0A%20%20%20%20_d%20%3D%20%7Bcol%3A%20entropy(frame%5Bcol%5D)%20for%20col%20in%20frame.columns%20if%20col%20!%3D%20%22year%22%7D%0A%0A%20%20%20%20_sorted_d%20%3D%20dict(sorted(_d.items()%2C%20key%3Dlambda%20item%3A%20item%5B1%5D%2C%20reverse%3DTrue))%0A%0A%20%20%20%20%23%20Convert%20to%20Polars%20DataFrame%0A%20%20%20%20_df_entropy%20%3D%20pl.DataFrame(%7B%0A%20%20%20%20%20%20%20%20%22column%22%3A%20list(_sorted_d.keys())%2C%0A%20%20%20%20%20%20%20%20%22entropy%22%3A%20list(_sorted_d.values())%0A%20%20%20%20%7D)%0A%0A%20%20%20%20return%20_df_entropy%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20_df_entropy_girls%20%3D%20calculate_entropy(g)%0A%20%20%20%20_df_entropy_boys%20%3D%20calculate_entropy(b)%0A%20%20%20%20print(_df_entropy_girls)%0A%20%20%20%20print(_df_entropy_boys)%0A%20%20%20%20return%0A%0A%0A%40app.function%0Adef%20calculate_norm(frame%3A%20pl.DataFrame)%20-%3E%20pl.DataFrame%3A%0A%20%20%20%20_d%20%3D%20%7Bcol%3A%20norm(frame%5Bcol%5D)%20for%20col%20in%20frame.columns%20if%20col%20!%3D%20%22year%22%7D%0A%0A%20%20%20%20_sorted_d%20%3D%20dict(sorted(_d.items()%2C%20key%3Dlambda%20item%3A%20item%5B1%5D%2C%20reverse%3DTrue))%0A%0A%20%20%20%20%23%20Convert%20to%20Polars%20DataFrame%0A%20%20%20%20_df_norm%20%3D%20pl.DataFrame(%7B%0A%20%20%20%20%20%20%20%20%22column%22%3A%20list(_sorted_d.keys())%2C%0A%20%20%20%20%20%20%20%20%22norm%22%3A%20list(_sorted_d.values())%0A%20%20%20%20%7D)%0A%0A%20%20%20%20return%20_df_norm%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20_df_norm_girls%20%3D%20calculate_norm(g)%0A%20%20%20%20_df_norm_boys%20%3D%20calculate_norm(b)%0A%20%20%20%20print(_df_norm_girls)%0A%20%20%20%20print(_df_norm_boys)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20%23%20Extract%20year%20and%20name%20data%2C%20drop%20nulls%0A%20%20%20%20boys_thomas%20%3D%20b.select(%5B%22year%22%2C%20%22Thomas%22%5D).drop_nulls()%0A%20%20%20%20girls_charlotte%20%3D%20g.select(%5B%22year%22%2C%20%22Charlotte%22%5D).drop_nulls()%0A%0A%20%20%20%20print(boys_thomas)%0A%20%20%20%20print(girls_charlotte)%0A%0A%20%20%20%20%23%20Rename%20columns%20to%20a%20common%20structure%0A%20%20%20%20boys_thomas%20%3D%20boys_thomas.rename(%7B%22Thomas%22%3A%20%22Boy%22%7D)%0A%20%20%20%20girls_charlotte%20%3D%20girls_charlotte.rename(%7B%22Charlotte%22%3A%20%22Girl%22%7D)%0A%0A%20%20%20%20%23%20Outer%20join%20on%20year%0A%20%20%20%20%23pair%20%3D%20boys_thomas.join(girls_charlotte%2C%20on%3D%22year%22%2C%20how%3D%22outer%22)%0A%0A%20%20%20%20%23%20Outer%20join%20from%20both%20sides%20to%20ensure%20all%20years%20included%0A%20%20%20%20all_years%20%3D%20(%0A%20%20%20%20%20%20%20%20pl.concat(%5Bboys_thomas.select(%22year%22)%2C%20girls_charlotte.select(%22year%22)%5D)%0A%20%20%20%20%20%20%20%20.unique()%0A%20%20%20%20%20%20%20%20.sort(%22year%22)%0A%20%20%20%20)%0A%0A%20%20%20%20print(all_years)%0A%0A%20%20%20%20%23%20Left-join%20each%20side%20onto%20the%20full%20year%20range%2C%20then%20combine%0A%20%20%20%20boys_filled%20%3D%20all_years.join(boys_thomas%2C%20on%3D%22year%22%2C%20how%3D%22left%22)%0A%20%20%20%20girls_filled%20%3D%20all_years.join(girls_charlotte%2C%20on%3D%22year%22%2C%20how%3D%22left%22)%0A%0A%20%20%20%20print(boys_filled)%0A%20%20%20%20print(girls_filled)%0A%0A%20%20%20%20%23%20Merge%20both%20into%20one%20DataFrame%20and%20fill%20nulls%20with%200%0A%20%20%20%20pair%20%3D%20(%0A%20%20%20%20%20%20%20%20boys_filled.join(girls_filled%2C%20on%3D%22year%22%2C%20how%3D%22full%22)%0A%20%20%20%20%20%20%20%20.fill_null(0)%0A%20%20%20%20%20%20%20%20.sort(%22year%22)%0A%20%20%20%20)%0A%0A%20%20%20%20print(pair)%0A%0A%20%20%20%20%23%20Create%20a%20line%20chart%20with%20Plotly%0A%20%20%20%20fig%20%3D%20go.Figure()%0A%20%20%20%20fig.add_trace(go.Scatter(x%3Dpair%5B%22year%22%5D%2C%20y%3Dpair%5B%22Boy%22%5D%2C%20mode%3D%22lines%22%2C%20name%3D%22Thomas%22))%0A%20%20%20%20fig.add_trace(go.Scatter(x%3Dpair%5B%22year%22%5D%2C%20y%3Dpair%5B%22Girl%22%5D%2C%20mode%3D%22lines%22%2C%20name%3D%22Charlotte%22))%0A%0A%20%20%20%20fig.update_layout(%0A%20%20%20%20%20%20%20%20title%3D%22Name%20Popularity%20Over%20Time%22%2C%0A%20%20%20%20%20%20%20%20xaxis_title%3D%22Year%22%2C%0A%20%20%20%20%20%20%20%20yaxis_title%3D%22Count%22%0A%20%20%20%20)%0A%0A%20%20%20%20fig%0A%20%20%20%20return%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
