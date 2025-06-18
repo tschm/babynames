@@ -27,11 +27,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   # The build job exports marimo notebooks to static HTML/WebAssembly
-  publish:
+  build:
     needs: tagging
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: "ubuntu-latest"
     steps:
-      - uses: tschm/marimushka/actions/export@v0.0.22
+      - uses: jebel-quant/marimushka@v0.1.1
         with:
-          notebooks: notebooks
-          publish: 'true'
+          notebooks_wasm: 'notebooks'
