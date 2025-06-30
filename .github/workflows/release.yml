@@ -31,6 +31,6 @@ jobs:
     needs: tagging
     runs-on: "ubuntu-latest"
     steps:
-      - uses: jebel-quant/marimushka@v0.1.1
+      - uses: jebel-quant/marimushka@v0.1.2
         with:
           notebooks_wasm: 'notebooks'
