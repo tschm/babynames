@@ -32,11 +32,4 @@ help:  ## Display this help screen
 # Install and run Marimo for interactive notebooks
 .PHONY: marimo
 marimo: uv ## Install Marimo
-	@uv run marimo edit --sandbox notebooks/$(NOTEBOOK)
-
-# Build the Jupyter Book documentation
-.PHONY: book
-book: ## Compile the book
-	@uvx jupyter-book clean book
-	@uvx jupyter-book build book
-	touch book/_build/html/.nojekyll
+	@uvx marimo edit --sandbox notebooks/$(NOTEBOOK)
