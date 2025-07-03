@@ -11,7 +11,6 @@ uv:
 # Format and lint the code using pre-commit
 .PHONY: fmt
 fmt: uv ## Run autoformatting and linting
-	@uvx pre-commit install
 	@uvx pre-commit run --all-files
 
 
