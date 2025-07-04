@@ -27,7 +27,7 @@ jobs:
       id-token: write         # Permission to verify deployment origin
 
     steps:
-      - uses: tschm/cradle/actions/book@v0.1.75
+      - uses: tschm/cradle/actions/book@v0.1.76
         with:
           title: "Baby Names"
           links: |
