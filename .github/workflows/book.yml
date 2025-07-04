@@ -35,7 +35,7 @@ jobs:
       - uses: tschm/cradle/actions/book@v0.1.75
         if: ${{ !github.event.repository.fork }}
         with:
-          title: "cvxRisk"
+          title: "Baby Names"
           links: |
             {
               "Notebooks": "./marimushka/index.html"
