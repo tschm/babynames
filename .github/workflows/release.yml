@@ -25,12 +25,3 @@ jobs:
         uses: tschm/cradle/actions/tag@v0.1.75
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  # The build job exports marimo notebooks to static HTML/WebAssembly
-  build:
-    needs: tagging
-    runs-on: "ubuntu-latest"
-    steps:
-      - uses: jebel-quant/marimushka@v0.1.3
-        with:
-          notebooks_wasm: 'notebooks'
