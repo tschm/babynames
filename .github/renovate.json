@@ -11,8 +11,15 @@
     "pre-commit",
     "github-actions"
   ],
+  "packageRules": [
+    {
+      "managers": ["pre-commit"],
+      "groupName": "pre-commit hook updates"
+    }
+  ],
+  "labels": ["dependencies", "renovate"],
   "timezone": "Asia/Dubai",
   "schedule": [
-    "before 10am on wednesday"
+    "before 10am on the first wednesday of the month"
   ]
 }
