@@ -22,6 +22,6 @@ jobs:
       # This automatically determines the next version number based on commit messages
       - name: Generate Tag
         id: tag_version
-        uses: tschm/cradle/actions/tag@v0.2.1
+        uses: tschm/cradle/actions/tag@v0.3.01
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
