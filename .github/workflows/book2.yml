@@ -128,5 +128,11 @@ jobs:
               "Notebooks": "./marimushka/index.html"
             }
 
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v3
+        id: deployment
+        uses: actions/deploy-pages@v4
