@@ -18,11 +18,11 @@
 name: "BOOK2"
 
 on:
-  push
-  #  branches:
-  #    # please use either main or master as your default branch
-  #    - main
-  #    - master
+  push:
+    branches:
+      # please use either main or master as your default branch
+      - main
+      - master
 
 jobs:
   parse-env:
