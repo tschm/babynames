@@ -7,17 +7,17 @@
 #     "plotly==6.1.2"
 # ]
 # ///
-import marimo
+"""Module for analyzing geometric relationships between baby names using vector projections."""
 
+import marimo
 
 __generated_with = "0.13.15"
 app = marimo.App()
 
 with app.setup:
     import marimo as mo
-    import polars as pl
     import numpy as np
-    from typing import Any
+    import polars as pl
 
     path = mo.notebook_location()
 
@@ -25,9 +25,8 @@ with app.setup:
     b = pl.read_csv(str(path / "public" / "boys.csv"))
 
 
-
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     mo.md(
         r"""
     ## Each name can be projected to the unit-sphere
@@ -35,11 +34,19 @@ def _(mo: Any) -> None:
     ## We compute the Bhattacharyya angle (correlation)
     """
     )
-    return
 
 
 @app.function
 def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
+    """Match names between two datasets based on their geometric similarity.
+
+    Args:
+        body1: First DataFrame containing name data
+        body2: Second DataFrame containing name data
+
+    Returns:
+        DataFrame with pairs of names and their similarity scores, sorted by score
+    """
     # Polars equivalent of Series and DataFrame operations
     # Convert to DataFrame if it's a Series
     merged = body1.join(body2, on="year", how="left")
@@ -48,9 +55,9 @@ def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
     value_cols = [col for col in merged.columns if col != "year"]
 
     # Normalize each value column (e.g., L1 normalization to unit simplex)
-    merged = merged.with_columns([
-        (pl.col(col).fill_null(0) / (pl.col(col).fill_null(0) ** 2).sum().sqrt()).alias(col) for col in value_cols
-    ])
+    merged = merged.with_columns(
+        [(pl.col(col).fill_null(0) / (pl.col(col).fill_null(0) ** 2).sum().sqrt()).alias(col) for col in value_cols]
+    )
 
     # Apply proj_sphere to each column
     x_cols = [col for col in body1.columns if col != "year"]
@@ -72,7 +79,6 @@ def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
     return pl.DataFrame(result_data).sort("value", descending=True)
 
 
-
 @app.cell
 def _() -> None:
     match(b.select(["year", "Thomas"]).drop_nulls(), g)
@@ -82,13 +88,11 @@ def _() -> None:
 @app.cell
 def _() -> None:
     match(b.select(["year", "Urs"]).drop_nulls(), b)
-    return
 
 
 @app.cell
 def _() -> None:
     match(b, g)
-    return
 
 
 @app.cell
@@ -100,7 +104,6 @@ def _() -> None:
     grouped_result = result.group_by("Name A").agg(pl.mean("value")).sort("value")
 
     print(grouped_result)
-    return
 
 
 if __name__ == "__main__":

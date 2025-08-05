@@ -8,6 +8,8 @@
 #     "scipy==1.15.3",
 # ]
 # ///
+"""Module for analyzing the 'boringness' of baby names using entropy and norm metrics."""
+
 import marimo
 
 __generated_with = "0.13.15"
@@ -15,11 +17,10 @@ app = marimo.App()
 
 with app.setup:
     import marimo as mo
-    import polars as pl
     import numpy as np
     import plotly.graph_objects as go
+    import polars as pl
     import scipy.stats as st
-    from typing import Optional, Any
 
     path = mo.notebook_location()
 
@@ -28,22 +29,30 @@ with app.setup:
 
 
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     mo.md(
         r"""
     ## Definition:
     ### A name is boring if it's associated discrete distribution is close to a uniform distribution.
 
-    ### The Shannon-entropy $\sum p_i \times \log p_i$ is maximal for the uniform distribution. Dangerous! (Kullback-Leibler)
+    ### The Shannon-entropy $\sum p_i \times \log p_i$ is maximal for the uniform distribution.
 
-    ### The Euclidean norm $\sqrt{\sum p_i^2}$ is is minimal for the uniform distribution.
+    ### The Euclidean norm $\sqrt{\sum p_i^2}$ is minimal for the uniform distribution.
     """
     )
-    return
 
 
 @app.function
-def entropy(ts: pl.Series, base: Optional[float] = None) -> float:
+def entropy(ts: pl.Series, base: float | None = None) -> float:
+    """Calculate the Shannon entropy of a name's distribution.
+
+    Args:
+        ts: Time series data for a name
+        base: The logarithm base to use for the calculation
+
+    Returns:
+        The Shannon entropy value
+    """
     # Polars equivalent of dropna and sum
     ts_filtered = ts.drop_nulls().to_numpy()
     ts_normalized = ts_filtered / ts_filtered.sum()
@@ -52,6 +61,14 @@ def entropy(ts: pl.Series, base: Optional[float] = None) -> float:
 
 @app.function
 def norm(ts: pl.Series) -> float:
+    """Calculate the Euclidean norm of a name's distribution.
+
+    Args:
+        ts: Time series data for a name
+
+    Returns:
+        The Euclidean norm value
+    """
     # Polars equivalent of dropna and sum
     ts_filtered = ts.drop_nulls().to_numpy()
     ts_normalized = ts_filtered / ts_filtered.sum()
@@ -60,15 +77,20 @@ def norm(ts: pl.Series) -> float:
 
 @app.function
 def calculate_entropy(frame: pl.DataFrame) -> pl.DataFrame:
+    """Calculate entropy for all names in the dataset.
+
+    Args:
+        frame: DataFrame containing name data
+
+    Returns:
+        DataFrame with name columns and their entropy values, sorted by entropy
+    """
     _d = {col: entropy(frame[col]) for col in frame.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
     # Convert to Polars DataFrame
-    _df_entropy = pl.DataFrame({
-        "column": list(_sorted_d.keys()),
-        "entropy": list(_sorted_d.values())
-    })
+    _df_entropy = pl.DataFrame({"column": list(_sorted_d.keys()), "entropy": list(_sorted_d.values())})
 
     return _df_entropy
 
@@ -79,20 +101,24 @@ def _() -> None:
     _df_entropy_boys = calculate_entropy(b)
     print(_df_entropy_girls)
     print(_df_entropy_boys)
-    return
 
 
 @app.function
 def calculate_norm(frame: pl.DataFrame) -> pl.DataFrame:
+    """Calculate norm for all names in the dataset.
+
+    Args:
+        frame: DataFrame containing name data
+
+    Returns:
+        DataFrame with name columns and their norm values, sorted by norm
+    """
     _d = {col: norm(frame[col]) for col in frame.columns if col != "year"}
 
     _sorted_d = dict(sorted(_d.items(), key=lambda item: item[1], reverse=True))
 
     # Convert to Polars DataFrame
-    _df_norm = pl.DataFrame({
-        "column": list(_sorted_d.keys()),
-        "norm": list(_sorted_d.values())
-    })
+    _df_norm = pl.DataFrame({"column": list(_sorted_d.keys()), "norm": list(_sorted_d.values())})
 
     return _df_norm
 
@@ -103,7 +129,6 @@ def _() -> None:
     _df_norm_boys = calculate_norm(b)
     print(_df_norm_girls)
     print(_df_norm_boys)
-    return
 
 
 @app.cell
@@ -119,15 +144,10 @@ def _() -> None:
     boys_thomas = boys_thomas.rename({"Thomas": "Boy"})
     girls_charlotte = girls_charlotte.rename({"Charlotte": "Girl"})
 
-    # Outer join on year
-    #pair = boys_thomas.join(girls_charlotte, on="year", how="outer")
+    # Outer join from both sides to ensure all years included
 
     # Outer join from both sides to ensure all years included
-    all_years = (
-        pl.concat([boys_thomas.select("year"), girls_charlotte.select("year")])
-        .unique()
-        .sort("year")
-    )
+    all_years = pl.concat([boys_thomas.select("year"), girls_charlotte.select("year")]).unique().sort("year")
 
     print(all_years)
 
@@ -139,11 +159,7 @@ def _() -> None:
     print(girls_filled)
 
     # Merge both into one DataFrame and fill nulls with 0
-    pair = (
-        boys_filled.join(girls_filled, on="year", how="full")
-        .fill_null(0)
-        .sort("year")
-    )
+    pair = boys_filled.join(girls_filled, on="year", how="full").fill_null(0).sort("year")
 
     print(pair)
 
@@ -152,14 +168,9 @@ def _() -> None:
     fig.add_trace(go.Scatter(x=pair["year"], y=pair["Boy"], mode="lines", name="Thomas"))
     fig.add_trace(go.Scatter(x=pair["year"], y=pair["Girl"], mode="lines", name="Charlotte"))
 
-    fig.update_layout(
-        title="Name Popularity Over Time",
-        xaxis_title="Year",
-        yaxis_title="Count"
-    )
+    fig.update_layout(title="Name Popularity Over Time", xaxis_title="Year", yaxis_title="Count")
 
     fig
-    return
 
 
 if __name__ == "__main__":
