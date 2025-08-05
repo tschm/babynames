@@ -7,6 +7,8 @@
 #     "plotly==6.1.2"
 # ]
 # ///
+"""Module for analyzing the 'Elvis effect' in baby name popularity."""
+
 import marimo
 
 __generated_with = "0.13.15"
@@ -14,9 +16,8 @@ app = marimo.App()
 
 with app.setup:
     import marimo as mo
-    import polars as pl
     import plotly.graph_objects as go
-    from typing import Any
+    import polars as pl
 
     path = mo.notebook_location()
 
@@ -24,15 +25,13 @@ with app.setup:
 
 
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     mo.md(r"""# The Elvis effect""")
-    return
 
 
 @app.cell
 def _():
     # Filter for Elvis and Male gender
-
 
     _f = u.filter((pl.col("Name") == "Elvis") & (pl.col("Gender") == "M"))
 
@@ -42,10 +41,7 @@ def _():
     # Create a plot
     _fig = go.Figure()
     _fig.add_trace(go.Scatter(x=_f["year"].to_list(), y=_f["n"].to_list(), mode="lines"))
-    _fig.update_layout(
-        title="# Boys named Elvis",
-        xaxis_title="Year",
-        yaxis_title="Count")
+    _fig.update_layout(title="# Boys named Elvis", xaxis_title="Year", yaxis_title="Count")
     _fig.show()
 
     # Show top 10 years
@@ -66,14 +62,8 @@ def _() -> None:
     # Create a plot
     _fig = go.Figure()
     _fig.add_trace(go.Scatter(x=_f_1["year"].to_list(), y=_f_1["n"].to_list(), mode="lines"))
-    _fig.update_layout(
-        title="# Girls named Elvis",
-        xaxis_title="Year",
-        yaxis_title="Count"
-    )
+    _fig.update_layout(title="# Girls named Elvis", xaxis_title="Year", yaxis_title="Count")
     _fig.show()
-
-    return
 
 
 @app.cell
@@ -84,20 +74,11 @@ def _() -> None:
     # Sort by year for plotting
     _f_2 = _f_2.sort("year")
 
-    # Polars doesn't have a built-in plot method, so we'll use plotly
-    # import plotly.graph_objects as go
-
     # Create a plot
     _fig = go.Figure()
     _fig.add_trace(go.Scatter(x=_f_2["year"].to_list(), y=_f_2["n"].to_list(), mode="lines"))
-    _fig.update_layout(
-        title="# Girls named Nikita",
-        xaxis_title="Year",
-        yaxis_title="Count"
-    )
+    _fig.update_layout(title="# Girls named Nikita", xaxis_title="Year", yaxis_title="Count")
     _fig.show()
-
-    return
 
 
 @app.cell
@@ -111,8 +92,6 @@ def _() -> None:
     # Display the results
     print("Names sorted by total count:")
     print(_a.head(20))
-
-    return
 
 
 if __name__ == "__main__":

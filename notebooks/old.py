@@ -8,6 +8,8 @@
 #     "scipy==1.15.3",
 # ]
 # ///
+"""Module for analyzing baby name age distributions."""
+
 import marimo
 
 __generated_with = "0.13.15"
@@ -15,10 +17,9 @@ app = marimo.App()
 
 with app.setup:
     import marimo as mo
-    import polars as pl
-    import plotly.graph_objects as go
     import numpy as np
-    from typing import Any
+    import plotly.graph_objects as go
+    import polars as pl
 
     path = mo.notebook_location()
 
@@ -28,6 +29,14 @@ with app.setup:
 
 @app.function
 def age(ts: pl.Series) -> int:
+    """Calculate the age of a name based on its distribution.
+
+    Args:
+        ts: Time series data for a name
+
+    Returns:
+        The age of the name (index where 50% of babies have been born)
+    """
     # Polars equivalent of dropna and sum
     # Convert to numpy for easier manipulation
     ts_filtered = ts.drop_nulls().to_numpy()
@@ -48,9 +57,8 @@ def age(ts: pl.Series) -> int:
     return first_idx + 1
 
 
-
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(
@@ -64,7 +72,7 @@ def _(mo: Any) -> None:
 
 
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(
@@ -90,13 +98,8 @@ def _() -> None:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="Adolf"))
 
-    # Add trace for Adolf data
-    # fig.add_trace(go.Scatter(y=adolf_data, mode="lines", name="Adolf"))
-
     # Update layout
-    fig.update_layout(
-        title="Adolf", xaxis_title="Index", yaxis_title="Value", width=800, height=600
-    )
+    fig.update_layout(title="Adolf", xaxis_title="Index", yaxis_title="Value", width=800, height=600)
 
     fig
 
@@ -115,7 +118,6 @@ def _() -> None:
     adolf_sum = adolf_after_1946.select(pl.sum("Adolf")).item()
 
     print(f"Sum of Adolf after 1946: {adolf_sum}")
-    return
 
 
 if __name__ == "__main__":

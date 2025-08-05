@@ -1,3 +1,6 @@
+# This file is part of the tschm/.config-templates repository
+# (https://github.com/tschm/.config-templates).
+#
 # Workflow: Deptry
 # Purpose: This workflow identifies missing and obsolete dependencies in the project.
 #          It helps maintain a clean dependency tree by detecting unused packages and
@@ -6,7 +9,10 @@ name: "DEPTRY"
 
 # Trigger: This workflow runs on every push and on pull requests to the main branch
 on:
-  push
+  push:
+  pull_request:
+    # Only run on pull requests targeting the main branch
+    branches: [ main ]
 
 # Permissions: Only read access to repository contents is needed
 permissions:
@@ -14,6 +20,7 @@ permissions:
 
 jobs:
   parse-env:
+    if: github.repository != 'tschm/.config-templates'
     runs-on: ubuntu-latest
     outputs:
       source-folder: ${{ steps.export.outputs.SOURCE_FOLDER }}
@@ -41,4 +48,4 @@ jobs:
         if: hashFiles('pyproject.toml') != ''
         uses: tschm/cradle/actions/deptry@v0.3.06
         with:
-          source-folder: notebooks
+          source-folder: ${{ needs.parse-env.outputs.source-folder }}
