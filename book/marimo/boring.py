@@ -22,15 +22,15 @@ __generated_with = "0.13.15"
 app = marimo.App()
 
 with app.setup:
+    from pathlib import Path
     from typing import Any
 
-    import marimo as mo
     import numpy as np
     import plotly.graph_objects as go
     import polars as pl
     import scipy.stats as st
 
-    path = mo.notebook_location()
+    path = Path(__file__).parent
 
     g = pl.read_csv(str(path / "public" / "girls.csv"))
     b = pl.read_csv(str(path / "public" / "boys.csv"))
