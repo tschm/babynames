@@ -22,7 +22,6 @@ app = marimo.App()
 
 with app.setup:
     from pathlib import Path
-    from typing import Any
 
     import numpy as np
     import plotly.graph_objects as go
@@ -69,7 +68,7 @@ def age(ts: pl.Series) -> int:
 
 
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(
@@ -83,7 +82,7 @@ def _(mo: Any) -> None:
 
 
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     # Polars equivalent of apply and sort_values
     # Apply age function to each column3 and sort
     _result = pl.DataFrame(

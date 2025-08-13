@@ -21,8 +21,8 @@ app = marimo.App()
 
 with app.setup:
     from pathlib import Path
-    from typing import Any
 
+    import marimo as mo
     import numpy as np
     import polars as pl
 
@@ -33,7 +33,7 @@ with app.setup:
 
 
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     mo.md(
         r"""
     ## Each name can be projected to the unit-sphere

@@ -21,8 +21,8 @@ app = marimo.App()
 
 with app.setup:
     from pathlib import Path
-    from typing import Any
 
+    import marimo as mo
     import plotly.graph_objects as go
     import polars as pl
 
@@ -32,7 +32,7 @@ with app.setup:
 
 
 @app.cell
-def _(mo: Any) -> None:
+def _() -> None:
     mo.md(r"""# The Elvis effect""")
     return
 
