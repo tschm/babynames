@@ -8,17 +8,25 @@
 #     "scipy==1.15.3",
 # ]
 # ///
+"""Analysis of baby name age and historical trends.
+
+This module calculates the 'age' of baby names based on their distribution
+over time and includes specific analysis of historically significant names
+like 'Adolf' to show how cultural and historical events affect naming patterns.
+"""
+
 import marimo
 
 __generated_with = "0.13.15"
 app = marimo.App()
 
 with app.setup:
-    import marimo as mo
-    import polars as pl
-    import plotly.graph_objects as go
-    import numpy as np
     from typing import Any
+
+    import marimo as mo
+    import numpy as np
+    import plotly.graph_objects as go
+    import polars as pl
 
     path = mo.notebook_location()
 
@@ -28,6 +36,18 @@ with app.setup:
 
 @app.function
 def age(ts: pl.Series) -> int:
+    """Calculate the 'age' of a name based on its distribution over time.
+
+    This function determines the age of a name by finding the index at which
+    the cumulative distribution of the name reaches 50%. This represents the
+    point in time when half of all babies with this name had been born.
+
+    Args:
+        ts: A polars Series containing the distribution of a name over time
+
+    Returns:
+        An integer representing the 'age' of the name (index at 50% cumulative distribution)
+    """
     # Polars equivalent of dropna and sum
     # Convert to numpy for easier manipulation
     ts_filtered = ts.drop_nulls().to_numpy()
@@ -46,7 +66,6 @@ def age(ts: pl.Series) -> int:
     # Return the year (assuming the first column is the year)
     # This might need adjustment based on the actual data structure
     return first_idx + 1
-
 
 
 @app.cell
@@ -94,9 +113,7 @@ def _() -> None:
     # fig.add_trace(go.Scatter(y=adolf_data, mode="lines", name="Adolf"))
 
     # Update layout
-    fig.update_layout(
-        title="Adolf", xaxis_title="Index", yaxis_title="Value", width=800, height=600
-    )
+    fig.update_layout(title="Adolf", xaxis_title="Index", yaxis_title="Value", width=800, height=600)
 
     fig
 
