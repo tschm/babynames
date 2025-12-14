@@ -41,7 +41,7 @@ def _() -> None:
     mo.md(
         r"""
     ## Definition:
-    ### A name is boring if it's associated discrete distribution is close to a uniform distribution.
+    ### a name is boring if it's associated discrete distribution is close to a uniform distribution.
 
     ### The Shannon-entropy $\sum p_i \times \log p_i$ is maximal for the uniform distribution.
     ### Note: Be careful with Kullback-Leibler divergence!
@@ -60,7 +60,7 @@ def entropy(ts: pl.Series, base: float | None = None) -> float:
     distribution where all mass is concentrated at one point.
 
     Args:
-        ts: A polars Series containing the distribution values
+        ts: a polars Series containing the distribution values
         base: The logarithm base to use (default: e)
 
     Returns:
@@ -80,7 +80,7 @@ def norm(ts: pl.Series) -> float:
     for a distribution where all mass is concentrated at one point.
 
     Args:
-        ts: A polars Series containing the distribution values
+        ts: a polars Series containing the distribution values
 
     Returns:
         The Euclidean norm as a float
@@ -100,10 +100,10 @@ def calculate_entropy(frame: pl.DataFrame) -> pl.DataFrame:
     distributions first), and returns a new DataFrame with the results.
 
     Args:
-        frame: A polars DataFrame with year and name columns
+        frame: a polars DataFrame with year and name columns
 
     Returns:
-        A polars DataFrame with columns 'column' (name) and 'entropy' (entropy value),
+        a polars DataFrame with columns 'column' (name) and 'entropy' (entropy value),
         sorted by entropy in descending order
     """
     _d = {col: entropy(frame[col]) for col in frame.columns if col != "year"}
@@ -134,10 +134,10 @@ def calculate_norm(frame: pl.DataFrame) -> pl.DataFrame:
     distributions first), and returns a new DataFrame with the results.
 
     Args:
-        frame: A polars DataFrame with year and name columns
+        frame: a polars DataFrame with year and name columns
 
     Returns:
-        A polars DataFrame with columns 'column' (name) and 'norm' (norm value),
+        a polars DataFrame with columns 'column' (name) and 'norm' (norm value),
         sorted by norm in descending order
     """
     _d = {col: norm(frame[col]) for col in frame.columns if col != "year"}

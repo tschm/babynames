@@ -42,7 +42,7 @@ def age(ts: pl.Series) -> int:
     point in time when half of all babies with this name had been born.
 
     Args:
-        ts: A polars Series containing the distribution of a name over time
+        ts: a polars Series containing the distribution of a name over time
 
     Returns:
         An integer representing the 'age' of the name (index at 50% cumulative distribution)

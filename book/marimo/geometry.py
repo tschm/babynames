@@ -57,11 +57,11 @@ def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
     the name distributions, which measures their correlation.
 
     Args:
-        body1: A polars DataFrame with year and name columns (first set of names)
-        body2: A polars DataFrame with year and name columns (second set of names)
+        body1: a polars DataFrame with year and name columns (first set of names)
+        body2: a polars DataFrame with year and name columns (second set of names)
 
     Returns:
-        A polars DataFrame with columns 'Name A', 'Name B', and 'value' (similarity score),
+        a polars DataFrame with columns 'Name a', 'Name B', and 'value' (similarity score),
         sorted by similarity score in descending order
     """
     # Polars equivalent of Series and DataFrame operations
@@ -87,7 +87,7 @@ def match(body1: pl.DataFrame, body2: pl.DataFrame) -> pl.DataFrame:
 
     # Create result as list of dicts
     result_data = [
-        {"Name A": x, "Name B": y, "value": scores[i, j]}
+        {"Name a": x, "Name B": y, "value": scores[i, j]}
         for i, x in enumerate(x_cols)
         for j, y in enumerate(y_cols)
         if x != y
@@ -119,8 +119,8 @@ def _() -> None:
     # Polars equivalent of reset_index, groupby, and mean
     result = match(b, g)
 
-    # Group by Name A and calculate mean of value
-    grouped_result = result.group_by("Name A").agg(pl.mean("value")).sort("value")
+    # Group by Name a and calculate mean of value
+    grouped_result = result.group_by("Name a").agg(pl.mean("value")).sort("value")
 
     print(grouped_result)
     return

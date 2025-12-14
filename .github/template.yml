@@ -1,4 +1,4 @@
-template-repository: "tschm/.config-templates"
+template-repository: "ts/.config-templates"
 template-branch: "main"
 include: |
     .github
