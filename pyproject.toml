@@ -32,12 +32,5 @@ Homepage = "https://github.com/tschm/babynames"
 Documentation = "http://tschm.github.io/babynames"
 Repository = "https://github.com/tschm/babynames"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [tool.uv]
 dev-dependencies = []
-
-[tool.hatch.build.targets.wheel]
-packages = []
