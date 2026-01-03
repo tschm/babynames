@@ -29,7 +29,7 @@ Homepage = "https://github.com/tschm/babynames"
 Documentation = "http://tschm.github.io/babynames"
 Repository = "https://github.com/tschm/babynames"
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "marimo>=0.18.0",
     "numpy>=2.4.0",
