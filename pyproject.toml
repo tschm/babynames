@@ -38,3 +38,12 @@ dev = [
     "scipy>=1.15.0",
     "polars>=1.30.0",
 ]
+
+[tool.deptry.package_module_name_map]
+marimo = "marimo"
+numpy = "numpy"
+plotly = "plotly"
+pandas = "pandas"
+polars = "polars"
+scipy = "scipy"
+
