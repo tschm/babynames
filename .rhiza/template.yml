@@ -16,4 +16,7 @@ include:
 exclude:
 - .github/workflows/rhiza_docker.yml
 - .github/workflows/rhiza_devcontainer.yml
+- .github/workflows/rhiza_benchmarks.yml
+- .github/workflows/rhiza_security.yml
 - .github/dependabot.yml
+- .rhiza/docs
