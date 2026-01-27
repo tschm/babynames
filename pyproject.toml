@@ -1,6 +1,6 @@
 [project]
 name = "babynames"
-version = "0.2.0"
+version = "1.0.0"
 description = "An interactive data analysis project exploring baby name trends and popularity over time"
 readme = "README.md"
 requires-python = ">=3.11"
