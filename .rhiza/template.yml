@@ -2,7 +2,6 @@ template-repository: jebel-quant/rhiza
 template-branch: main
 include:
 - .github
-- tests
 - .editorconfig
 - .gitignore
 - .pre-commit-config.yaml
@@ -10,7 +9,6 @@ include:
 - CONTRIBUTING.md
 - Makefile
 - ruff.toml
-- pytest.ini
 - book
 - presentation
 - .rhiza
