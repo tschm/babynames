@@ -21,12 +21,6 @@ marimushka:: install-uv
 # Default output directory for Marimushka (HTML exports of notebooks)
 MARIMUSHKA_OUTPUT ?= _marimushka
 
-# Logo file for pdoc (relative to project root).
-# 1. Defaults to the Rhiza logo if present.
-# 2. Can be overridden in Makefile or local.mk (e.g. LOGO_FILE := my-logo.png)
-# 3. If set to empty string, no logo will be used.
-LOGO_FILE ?= assets/rhiza-logo.svg
-
 # ----------------------------
 # Book sections (declarative)
 # ----------------------------
@@ -56,9 +50,9 @@ docs:: install ## create documentation with pdoc
 	    printf "${YELLOW}[WARN] No packages found under ${SOURCE_FOLDER}, skipping docs${RESET}\n"; \
 	  else \
 	    TEMPLATE_ARG=""; \
-	    if [ -d "${PDOC_TEMPLATE_DIR}" ]; then \
-	      TEMPLATE_ARG="-t ${PDOC_TEMPLATE_DIR}"; \
-	      printf "${BLUE}[INFO] Using pdoc templates from ${PDOC_TEMPLATE_DIR}${RESET}\n"; \
+	    if [ -d "$(PDOC_TEMPLATE_DIR)" ]; then \
+	      TEMPLATE_ARG="-t $(PDOC_TEMPLATE_DIR)"; \
+	      printf "$(BLUE)[INFO] Using pdoc templates from $(PDOC_TEMPLATE_DIR)$(RESET)\n"; \
 	    fi; \
 	    DOCFORMAT="$(DOCFORMAT)"; \
 	    if [ -z "$$DOCFORMAT" ]; then \
@@ -94,18 +88,8 @@ docs:: install ## create documentation with pdoc
 # 1. Aggregates API docs, coverage, test reports, and notebooks into _book.
 # 2. Generates links.json to define the book structure.
 # 3. Uses 'minibook' to compile the final HTML site.
-book:: install-uv ## compile the companion book
+book:: test docs marimushka ## compile the companion book
 	@printf "${BLUE}[INFO] Building combined documentation...${RESET}\n"
-	
-	# Run docs but don't fail book if docs fail or are unavailable
-	@$(MAKE) docs || printf "${YELLOW}[WARN] Docs failed or unavailable, continuing with book generation${RESET}\n"
-	
-	# Run marimushka but don't fail book if marimushka fails or is unavailable
-	@$(MAKE) marimushka || printf "${YELLOW}[WARN] Marimushka failed or unavailable, continuing with book generation${RESET}\n"
-	
-	# Run tests but don't fail book if tests fail or are unavailable
-	@$(MAKE) test || printf "${YELLOW}[WARN] Tests failed or unavailable, continuing with book generation${RESET}\n"
-	
 	@rm -rf _book && mkdir -p _book
 
 	@if [ -f "_tests/coverage.json" ]; then \
@@ -155,6 +139,14 @@ json.dump(badge, open('_book/tests/coverage-badge.json', 'w'))"; \
 	if [ -f "$(BOOK_TEMPLATE)" ]; then \
 	  TEMPLATE_ARG="--template $(BOOK_TEMPLATE)"; \
 	  printf "${BLUE}[INFO] Using book template $(BOOK_TEMPLATE)${RESET}\n"; \
+	fi; \
+	if [ -n "$(LOGO_FILE)" ]; then \
+	  if [ -f "$(LOGO_FILE)" ]; then \
+	    cp "$(LOGO_FILE)" "_book/logo$$(echo $(LOGO_FILE) | sed 's/.*\./\./')"; \
+	    printf "${BLUE}[INFO] Copying logo: $(LOGO_FILE)${RESET}\n"; \
+	  else \
+	    printf "${YELLOW}[WARN] Logo file $(LOGO_FILE) not found, skipping${RESET}\n"; \
+	  fi; \
 	fi; \
 	"$(UVX_BIN)" minibook \
 	  --title "$(BOOK_TITLE)" \
