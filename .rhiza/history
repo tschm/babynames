@@ -1,7 +1,7 @@
 # Rhiza Template History
 # This file lists all files managed by the Rhiza template.
 # Template repository: jebel-quant/rhiza
-# Template branch: main
+# Template branch: copilot/update-template-inclusion-exclusion
 #
 # Files under template control:
 .editorconfig
@@ -35,6 +35,7 @@
 .rhiza/make.d/05-github.mk
 .rhiza/make.d/06-agentic.mk
 .rhiza/make.d/07-docker.mk
+.rhiza/make.d/08-docs.mk
 .rhiza/make.d/10-custom-task.mk
 .rhiza/make.d/README.md
 .rhiza/requirements/README.md
@@ -44,7 +45,9 @@
 .rhiza/requirements/tools.txt
 .rhiza/rhiza.mk
 .rhiza/scripts/release.sh
+.rhiza/template-bundles.yml
 .rhiza/templates/minibook/custom.html.jinja2
+.rhiza/templates/template.yml
 .rhiza/utils/version_matrix.py
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md

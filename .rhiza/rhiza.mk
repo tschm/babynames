@@ -54,7 +54,7 @@ PYTHON_VERSION ?= $(shell cat .python-version 2>/dev/null || echo "3.13")
 export PYTHON_VERSION
 
 # Read Rhiza version from .rhiza/.rhiza-version (single source of truth for rhiza-tools)
-RHIZA_VERSION ?= $(shell cat .rhiza/.rhiza-version 2>/dev/null || echo "0.9.0")
+RHIZA_VERSION ?= $(shell cat .rhiza/.rhiza-version 2>/dev/null || echo "0.10.2")
 export RHIZA_VERSION
 
 export UV_NO_MODIFY_PATH := 1
@@ -173,6 +173,12 @@ install: pre-install install-uv ## install
 	# Install the dependencies from pyproject.toml (if it exists)
 	@if [ -f "pyproject.toml" ]; then \
 	  if [ -f "uv.lock" ]; then \
+	    if ! ${UV_BIN} lock --check >/dev/null 2>&1; then \
+	      printf "${YELLOW}[WARN] uv.lock is out of sync with pyproject.toml${RESET}\n"; \
+	      printf "${YELLOW}       Run 'uv sync' to update your lock file and environment${RESET}\n"; \
+	      printf "${YELLOW}       Or run 'uv lock' to update only the lock file${RESET}\n"; \
+	      exit 1; \
+	    fi; \
 	    printf "${BLUE}[INFO] Installing dependencies from lock file${RESET}\n"; \
 	    ${UV_BIN} sync --all-extras --all-groups --frozen || { printf "${RED}[ERROR] Failed to install dependencies${RESET}\n"; exit 1; }; \
 	  else \
