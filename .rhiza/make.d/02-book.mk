@@ -4,7 +4,12 @@
 # and compiling a companion book (minibook).
 
 # Declare phony targets (they don't produce files)
-.PHONY: marimushka mkdocs-build book
+.PHONY: test marimushka mkdocs-build book
+
+# Define a default no-op test target that will be used
+# when tests/tests.mk doesn't exist or doesn't define test
+test:: install-uv
+	@printf "${BLUE}[INFO] No test target defined, skipping tests${RESET}\n"
 
 # Define a default no-op marimushka target that will be used
 # when book/marimo/marimo.mk doesn't exist or doesn't define marimushka
