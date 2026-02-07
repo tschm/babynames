@@ -5,3 +5,5 @@ templates:
   - github
   - book
   - marimo
+  - tests
+
