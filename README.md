@@ -21,7 +21,6 @@ to analyze name distributions and identify interesting patterns.
 ### 📋 Prerequisites
 
 - Python 3.12+
-- Dependencies listed in `requirements.txt`
 
 ### 🔧 Installation
 
