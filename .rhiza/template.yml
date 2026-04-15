@@ -4,3 +4,12 @@ template-branch: "v0.9.5"
 templates:
   - github
   - marimo
+
+exclude:
+  - .rhiza/docs/
+  - .rhiza/make.d/agentic.mk
+  - .rhiza/make.d/gh-aw.mk
+  - .rhiza/make.d/github.mk
+  - .rhiza/make.d/custom-env.mk
+  - .rhiza/make.d/custom-task.mk
+  - .github/agents/
