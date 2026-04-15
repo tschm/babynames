@@ -46,6 +46,11 @@ The full documentation is available at [http://tschm.github.io/babynames/book](h
 
 ![Nikita](nikita.jpg)
 
+## 🔗 Infrastructure
+
+This project relies on the [Rhiza](https://jebel-quant.github.io/rhiza-education/) system
+for its underlying infrastructure and tooling.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
