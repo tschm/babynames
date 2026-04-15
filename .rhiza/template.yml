@@ -14,3 +14,4 @@ exclude:
   - .rhiza/make.d/custom-task.mk
   - .rhiza/make.d/README.md
   - .github/agents/
+  - docs/adr

@@ -11,5 +11,4 @@ nav:
   - Home: index.md
   - Development:
       - Marimo: development/MARIMO.md
-  - ADR:
-      - Template: adr/0000-adr-template.md
+  - Notebooks: notebooks.md
