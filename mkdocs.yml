@@ -11,4 +11,8 @@ nav:
   - Home: index.md
   - Development:
       - Marimo: development/MARIMO.md
-  - Notebooks: notebooks.md
+  - Notebooks:
+      - Boring: notebooks/boring.html
+      - Elvis: notebooks/elvis.html
+      - Geometry: notebooks/geometry.html
+      - Old: notebooks/old.html
