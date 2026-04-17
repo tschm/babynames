@@ -17,10 +17,11 @@
 name: "(RHIZA) BOOK"
 
 on:
-  push:
-    branches:
-      - main
-      - master
+  push
+  # push:
+    #branches:
+    #  - main
+    #  - master
 
 jobs:
   book:
