@@ -59,7 +59,7 @@ _book-notebooks:
 	  done; \
 	fi
 
-book:: _book-reports _book-notebooks ## compile the companion book via MkDocs
+book:: _book-reports _book-notebooks ## compile the companion book via zensical
 	#@if [ -n "$(_MKDOCS_CFG)" ]; then \
 	rm -rf "$(BOOK_OUTPUT)"; \
     echo $(_MKDOCS_CFG);
