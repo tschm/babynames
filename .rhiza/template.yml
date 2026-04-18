@@ -1,17 +1,6 @@
 template-repository: "jebel-quant/rhiza"
-template-branch: "v0.9.5"
+template-branch: "v0.10.1"
 
 templates:
   - github
   - marimo
-
-exclude:
-  - .rhiza/docs/
-  - .rhiza/make.d/agentic.mk
-  - .rhiza/make.d/gh-aw.mk
-  - .rhiza/make.d/github.mk
-  - .rhiza/make.d/custom-env.mk
-  - .rhiza/make.d/custom-task.mk
-  - .rhiza/make.d/README.md
-  - .github/agents/
-  - docs/adr
