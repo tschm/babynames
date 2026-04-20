@@ -48,5 +48,5 @@ files:
 - docs/index.md
 - docs/mkdocs-base.yml
 - ruff.toml
-synced_at: '2026-04-18T15:57:29Z'
+synced_at: '2026-04-20T00:59:32Z'
 strategy: merge
