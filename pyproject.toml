@@ -31,7 +31,7 @@ Repository = "https://github.com/tschm/babynames"
 
 [dependency-groups]
 dev = [
-    "marimo>=0.23.1",
+    "marimo>=0.23.2",
     "numpy>=2.4.4",
     "plotly>=6.7.0",
     "pandas>=3.0.2",
